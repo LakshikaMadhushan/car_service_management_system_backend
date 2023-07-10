@@ -6,23 +6,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class Appointment {
+public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long appointmentId;
-    public Date appointmentDate;
-    public Date actualDate;
+    public long orderDetailsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    public Vehicle vehicle;
+    public Order order;
     @ManyToOne(fetch = FetchType.LAZY)
-    public Customer customer;
-    @OneToMany(mappedBy = "appointment")
-    private List<AppointmentDetails> appointmentDetailsList;
+    public Item item;
 }

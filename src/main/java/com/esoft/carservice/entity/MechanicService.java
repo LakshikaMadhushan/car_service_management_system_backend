@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,8 +16,15 @@ public class MechanicService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long mechanicServiceId;
-    public long name;
-    public long price;
+    public String name;
+    public double price;
     @Enumerated(EnumType.STRING)
     public VehicleType vehicleType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public MechanicServiceCategory mechanicServiceCategory;
+    @OneToMany(mappedBy = "mechanicService")
+    private List<ServiceDetails> serviceDetailsList;
+    @OneToMany(mappedBy = "mechanicService")
+    private List<AppointmentDetails> appointmentDetailsList;
 }

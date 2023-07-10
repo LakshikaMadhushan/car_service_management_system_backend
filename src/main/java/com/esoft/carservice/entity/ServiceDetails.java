@@ -19,4 +19,10 @@ public class ServiceDetails {
     @Enumerated(EnumType.STRING)
     public ServiceDetailsType type;
     public double cost;
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Service service;
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Item item;
+    @ManyToOne(fetch = FetchType.LAZY)
+    public MechanicService mechanicService;
 }

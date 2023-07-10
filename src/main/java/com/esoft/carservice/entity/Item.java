@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,4 +21,11 @@ public class Item {
     public String brand;
     public int quantity;
     public String sellerName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public ItemCategory itemCategory;
+    @OneToMany(mappedBy = "item")
+    private List<ServiceDetails> serviceDetailsList;
+    @OneToMany(mappedBy = "item")
+    private List<OrderDetails> orderDetailsList;
 }

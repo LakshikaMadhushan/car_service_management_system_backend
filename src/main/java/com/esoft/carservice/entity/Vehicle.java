@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +27,11 @@ public class Vehicle {
     public String nextMileage;
     @Enumerated(EnumType.STRING)
     public VehicleType vehicleType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Customer customer;
+
+    @OneToMany(mappedBy = "vehicle")
+    private List<Service> serviceList;
+    @OneToMany(mappedBy = "vehicle")
+    private List<Appointment> appointmentList;
 }

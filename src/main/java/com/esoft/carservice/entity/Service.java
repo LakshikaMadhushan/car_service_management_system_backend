@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +21,10 @@ public class Service {
     public ServiceType type;
     public String cost;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Vehicle vehicle;
+    @ManyToOne(fetch = FetchType.LAZY)
+    public Technician technician;
+    @OneToMany(mappedBy = "service")
+    private List<ServiceDetails> serviceDetailsList;
 }

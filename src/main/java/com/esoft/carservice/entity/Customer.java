@@ -4,10 +4,8 @@ import com.esoft.carservice.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,4 +22,11 @@ public class Customer {
     public String mobileNumber;
     public String email;
     public String password;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Vehicle> vehicleList;
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orderList;
+    @OneToMany(mappedBy = "customer")
+    private List<Appointment> appointmentList;
 }

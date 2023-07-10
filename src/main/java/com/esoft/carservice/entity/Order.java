@@ -12,17 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-public class Appointment {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long appointmentId;
-    public Date appointmentDate;
-    public Date actualDate;
+    public long orderId;
+    public Date orderDate;
+    public double cost;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    public Vehicle vehicle;
-    @ManyToOne(fetch = FetchType.LAZY)
     public Customer customer;
-    @OneToMany(mappedBy = "appointment")
-    private List<AppointmentDetails> appointmentDetailsList;
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetails> orderDetailsList;
 }

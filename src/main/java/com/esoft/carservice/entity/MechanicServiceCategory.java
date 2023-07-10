@@ -11,12 +11,12 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-public class ItemCategory {
+public class MechanicServiceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long itemCategoryId;
+    public long mechanicServiceCategoryId;
     public String name;
 
-    @OneToMany(mappedBy = "itemCategory")
-    private List<Item> itemList;
+    @OneToMany(mappedBy = "mechanicServiceCategory")
+    private List<MechanicService> mechanicServiceList;
 }
