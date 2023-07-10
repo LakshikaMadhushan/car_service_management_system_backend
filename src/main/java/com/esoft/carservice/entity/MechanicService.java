@@ -1,6 +1,5 @@
 package com.esoft.carservice.entity;
 
-import com.esoft.carservice.enums.VehicleStatus;
 import com.esoft.carservice.enums.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,18 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
-public class Vehicle {
+public class MechanicService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long vehicleId;
-    public String category;
-    public String numberPlate;
-    public String colour;
-    @Enumerated(EnumType.STRING)
-    public VehicleStatus status;
-    public String engineCapacity;
-    public String mileage;
-    public String nextMileage;
+    public long mechanicServiceId;
+    public long name;
+    public long price;
     @Enumerated(EnumType.STRING)
     public VehicleType vehicleType;
 }
