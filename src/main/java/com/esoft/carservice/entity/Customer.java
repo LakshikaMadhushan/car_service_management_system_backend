@@ -2,7 +2,8 @@ package com.esoft.carservice.entity;
 
 import com.esoft.carservice.enums.UserStatus;
 import lombok.AllArgsConstructor;
-import lombok.Data;import lombok.NoArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,8 +21,6 @@ public class Customer {
     public String address2;
     public UserStatus status;
     public String mobileNumber;
-    public String email;
-    public String password;
 
     @OneToMany(mappedBy = "customer")
     private List<Vehicle> vehicleList;

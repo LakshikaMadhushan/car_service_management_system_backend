@@ -1,6 +1,6 @@
 package com.esoft.carservice.entity;
 
-import com.esoft.carservice.enums.UserStatus;
+import com.esoft.carservice.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long userId;
     public String email;
+    public String password;
     public String name;
+    public UserRole userRole;
 }

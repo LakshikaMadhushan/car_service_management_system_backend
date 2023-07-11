@@ -1,5 +1,6 @@
 package com.esoft.carservice.entity;
 
+import com.esoft.carservice.enums.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Item {
     public double buyingPrice;
     public String brand;
     public int quantity;
+    public ItemStatus itemStatus;
     public String sellerName;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -22,7 +22,5 @@ public class Admin {
     public String address2;
     public UserStatus status;
     public String mobileNumber;
-    public String email;
-    public String password;
     public String qualification;
 }
