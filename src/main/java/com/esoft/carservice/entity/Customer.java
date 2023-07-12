@@ -22,6 +22,8 @@ public class Customer {
     public UserStatus status;
     public String mobileNumber;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
+    private User user;
     @OneToMany(mappedBy = "customer")
     private List<Vehicle> vehicleList;
     @OneToMany(mappedBy = "customer")

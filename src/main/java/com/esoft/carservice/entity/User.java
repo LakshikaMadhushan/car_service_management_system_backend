@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +19,8 @@ public class User {
     public String password;
     public String name;
     public UserRole userRole;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Customer customer;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Admin admin;
 }

@@ -1,14 +1,13 @@
 package com.esoft.carservice.service;
 
 import com.esoft.carservice.dto.requset.UpdateSaveItemRequestDTO;
-import com.esoft.carservice.dto.responce.GetItemResponceDTO;
+import com.esoft.carservice.dto.responce.GetItemResponseDTO;
 
 import java.util.List;
-
 public interface ItemService {
-    public List<GetItemResponceDTO> getAllItem();
+    public List<GetItemResponseDTO> getAllItem();
 
-    public GetItemResponceDTO getItem(long id);
+    public GetItemResponseDTO getItem(long id);
 
     public void updateItem(UpdateSaveItemRequestDTO requestDTO);
 
