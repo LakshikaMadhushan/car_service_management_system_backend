@@ -45,7 +45,7 @@ public class MechanicServiceController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
-    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> saveMechanicService(@RequestBody UpdateSaveMechanicServiceRequestDTO dto) {
         mechanicServiceService.saveMechanicService(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,

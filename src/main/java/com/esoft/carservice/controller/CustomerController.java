@@ -45,7 +45,7 @@ public class CustomerController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
-    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> saveCustomer(@RequestBody UpdateSaveCustomer dto) {
         customerService.saveCustomer(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,

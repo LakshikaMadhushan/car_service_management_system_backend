@@ -15,11 +15,11 @@ import static com.esoft.carservice.constant.ResponseMessages.SUCCESS_RESPONSE;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("v1/item")
-public class ItemController {
+@RequestMapping("v1/items")
+public class ItemsController {
     private final ItemService itemService;
 
-    public ItemController(ItemService itemService) {
+    public ItemsController(ItemService itemService) {
         this.itemService = itemService;
     }
 
@@ -44,7 +44,7 @@ public class ItemController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
-    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> saveItem(@RequestBody UpdateSaveItemRequestDTO dto) {
         itemService.saveItem(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,

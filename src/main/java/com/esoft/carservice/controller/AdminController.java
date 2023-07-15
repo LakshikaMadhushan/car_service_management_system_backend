@@ -45,7 +45,7 @@ public class AdminController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
-    @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> saveAdmin(@RequestBody UpdateSaveAdminRequestDTO dto) {
         adminService.saveAdmin(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
