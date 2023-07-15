@@ -83,7 +83,7 @@ public class ItemServiceImpl implements ItemService {
     public void updateItem(UpdateSaveItemRequestDTO requestDTO) {
         log.info("Execute method updateItem : @param : {} ", requestDTO);
         try {
-            Optional<Item> optionalItem = itemRepository.findById(requestDTO.itemId);
+            Optional<Item> optionalItem = itemRepository.findById(requestDTO.getItemId());
             if (!optionalItem.isPresent()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item you are finding cannot be found. ");
             }

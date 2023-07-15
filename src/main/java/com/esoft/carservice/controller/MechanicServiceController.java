@@ -31,10 +31,10 @@ public class MechanicServiceController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> getMechanicService(@PathVariable long itemId) {
+    @GetMapping(value = "/{mechanicServiceId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> getMechanicService(@PathVariable long mechanicServiceId) {
 
-        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, mechanicServiceService.getMechanicService(itemId),
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, mechanicServiceService.getMechanicService(mechanicServiceId),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
