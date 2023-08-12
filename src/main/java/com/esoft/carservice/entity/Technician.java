@@ -23,6 +23,7 @@ public class Technician {
     public String mobileNumber;
     public String email;
     public String password;
+    public String qualification;
 
     @OneToMany(mappedBy = "technician")
     private List<Service> serviceList;
