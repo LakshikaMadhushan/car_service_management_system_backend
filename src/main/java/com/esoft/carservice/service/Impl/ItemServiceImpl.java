@@ -109,6 +109,13 @@ public class ItemServiceImpl implements ItemService {
     public void saveItem(UpdateSaveItemRequestDTO requestDTO) {
         log.info("Execute method saveItem : @param : {} ", requestDTO);
         try {
+
+            List<Item> itemList = itemRepository.findItemByItemName(requestDTO.itemName);
+
+            if (!itemList.isEmpty()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item name already used. ");
+            }
+
             Item item = new Item();
             item.setBrand(item.getBrand());
             item.setBuyingPrice(item.getBuyingPrice());
