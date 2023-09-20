@@ -2,6 +2,7 @@ package com.esoft.carservice.service.Impl;
 
 import com.esoft.carservice.configuration.exception.CustomException;
 import com.esoft.carservice.configuration.exception.ServiceException;
+import com.esoft.carservice.dto.requset.ItemFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveItemRequestDTO;
 import com.esoft.carservice.dto.responce.GetItemResponseDTO;
 import com.esoft.carservice.entity.Item;
@@ -117,7 +118,7 @@ public class ItemServiceImpl implements ItemService {
         log.info("Execute method saveItem : @param : {} ", requestDTO);
         try {
 
-            List<Item> itemList = itemRepository.findItemByItemName(requestDTO.itemName);
+            List<Item> itemList = itemRepository.findItemByItemName(requestDTO.getItemName());
 
             if (!itemList.isEmpty()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item name already used. ");
@@ -135,6 +136,30 @@ public class ItemServiceImpl implements ItemService {
             itemRepository.save(item);
         } catch (Exception e) {
             log.error("Method saveItem : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    public List<GetItemResponseDTO> getItemFilter(ItemFilterRequestDTO requestDTO) {
+        log.info("Execute method getItemFilter : @param : {} ", requestDTO);
+        try {
+            List<Item> itemList = itemRepository.getAllItemFilter(requestDTO.getName(), requestDTO.getCategoryId());
+            List<GetItemResponseDTO> itemResponceDTOList = new ArrayList<>();
+            for (Item item : itemList) {
+                GetItemResponseDTO getItemResponseDTO = new GetItemResponseDTO();
+                getItemResponseDTO.setBrand(item.getBrand());
+                getItemResponseDTO.setBuyingPrice(item.getBuyingPrice());
+                getItemResponseDTO.setItemId(item.getItemId());
+                getItemResponseDTO.setItemName(item.getItemName());
+                getItemResponseDTO.setQuantity(item.getQuantity());
+                getItemResponseDTO.setSellingPrice(item.getSellingPrice());
+                getItemResponseDTO.setItemStatus(item.getItemStatus());
+                itemResponceDTOList.add(getItemResponseDTO);
+            }
+            return itemResponceDTOList;
+        } catch (Exception e) {
+            log.error("Method getItemFilter : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
         }
     }
