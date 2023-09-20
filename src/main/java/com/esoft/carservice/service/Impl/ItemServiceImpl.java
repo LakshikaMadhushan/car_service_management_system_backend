@@ -87,6 +87,13 @@ public class ItemServiceImpl implements ItemService {
             if (!optionalItem.isPresent()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item you are finding cannot be found. ");
             }
+
+            List<Item> itemList = itemRepository.findItemByItemNameUpdate(requestDTO.itemName, requestDTO.getItemId());
+
+            if (!itemList.isEmpty()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item name already used. ");
+            }
+
             Item item = optionalItem.get();
             item.setBrand(item.getBrand());
             item.setBuyingPrice(item.getBuyingPrice());
