@@ -14,6 +14,8 @@ public class GetItemResponseDTO {
     public double sellingPrice;
     public double buyingPrice;
     public String brand;
+    public String categoryName;
+    public long categoryId;
     public int quantity;
     public ItemStatus itemStatus;
 }

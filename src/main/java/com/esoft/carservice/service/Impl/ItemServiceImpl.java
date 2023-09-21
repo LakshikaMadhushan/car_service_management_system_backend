@@ -50,6 +50,11 @@ public class ItemServiceImpl implements ItemService {
                 getItemResponseDTO.setQuantity(item.getQuantity());
                 getItemResponseDTO.setSellingPrice(item.getSellingPrice());
                 getItemResponseDTO.setItemStatus(item.getItemStatus());
+                Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(item.getItemId());
+                if (optionalItemCategory.isPresent()) {
+                    getItemResponseDTO.setCategoryId(optionalItemCategory.get().getItemCategoryId());
+                    getItemResponseDTO.setCategoryName(optionalItemCategory.get().getName());
+                }
                 itemResponceDTOList.add(getItemResponseDTO);
             }
             return itemResponceDTOList;
@@ -76,6 +81,13 @@ public class ItemServiceImpl implements ItemService {
             getItemResponseDTO.setQuantity(item.getQuantity());
             getItemResponseDTO.setSellingPrice(item.getSellingPrice());
             getItemResponseDTO.setItemStatus(item.getItemStatus());
+            Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(item.getItemId());
+            if (optionalItemCategory.isPresent()) {
+                getItemResponseDTO.setCategoryId(optionalItemCategory.get().getItemCategoryId());
+                getItemResponseDTO.setCategoryName(optionalItemCategory.get().getName());
+            }
+
+
             return getItemResponseDTO;
         } catch (Exception e) {
             log.error("Method getItem : " + e.getMessage(), e);
@@ -171,6 +183,11 @@ public class ItemServiceImpl implements ItemService {
                 getItemResponseDTO.setQuantity(item.getQuantity());
                 getItemResponseDTO.setSellingPrice(item.getSellingPrice());
                 getItemResponseDTO.setItemStatus(item.getItemStatus());
+                Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(item.getItemId());
+                if (optionalItemCategory.isPresent()) {
+                    getItemResponseDTO.setCategoryId(optionalItemCategory.get().getItemCategoryId());
+                    getItemResponseDTO.setCategoryName(optionalItemCategory.get().getName());
+                }
                 itemResponceDTOList.add(getItemResponseDTO);
             }
             return itemResponceDTOList;
