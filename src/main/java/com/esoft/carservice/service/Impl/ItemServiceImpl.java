@@ -6,6 +6,8 @@ import com.esoft.carservice.dto.requset.ItemFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveItemRequestDTO;
 import com.esoft.carservice.dto.responce.GetItemResponseDTO;
 import com.esoft.carservice.entity.Item;
+import com.esoft.carservice.entity.ItemCategory;
+import com.esoft.carservice.repository.ItemCategoryRepository;
 import com.esoft.carservice.repository.ItemRepository;
 import com.esoft.carservice.service.ItemService;
 import lombok.extern.log4j.Log4j2;
@@ -26,9 +28,11 @@ import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OC
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
+    private final ItemCategoryRepository itemCategoryRepository;
 
-    public ItemServiceImpl(ItemRepository itemRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, ItemCategoryRepository itemCategoryRepository) {
         this.itemRepository = itemRepository;
+        this.itemCategoryRepository = itemCategoryRepository;
     }
 
     @Override
@@ -104,6 +108,12 @@ public class ItemServiceImpl implements ItemService {
             item.setSellingPrice(item.getSellingPrice());
             item.setItemStatus(item.getItemStatus());
 
+            Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(requestDTO.getCategoryId());
+            if (!optionalItemCategory.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the category not found. ");
+            }
+            item.setItemCategory(optionalItemCategory.get());
+
             itemRepository.save(item);
         } catch (Exception e) {
             log.error("Method updateItem : " + e.getMessage(), e);
@@ -132,6 +142,12 @@ public class ItemServiceImpl implements ItemService {
             item.setQuantity(item.getQuantity());
             item.setSellingPrice(item.getSellingPrice());
             item.setItemStatus(item.getItemStatus());
+
+            Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(requestDTO.getCategoryId());
+            if (!optionalItemCategory.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the category not found. ");
+            }
+            item.setItemCategory(optionalItemCategory.get());
 
             itemRepository.save(item);
         } catch (Exception e) {

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateSaveItemRequestDTO {
     public long itemId;
+    public long categoryId;
     public String itemName;
     public double sellingPrice;
     public double buyingPrice;
