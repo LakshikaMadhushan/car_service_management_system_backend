@@ -30,6 +30,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/v1/items/{itemId}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/v1/items/{itemId}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/items").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/items/filter").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/v1/category").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/category").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/category/{itemCategoryId}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/v1/category/{itemCategoryId}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/v1/category").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/category/filter").permitAll()
+
                 .antMatchers("/**").authenticated()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
         http.csrf().disable();

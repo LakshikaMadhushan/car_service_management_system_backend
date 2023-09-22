@@ -112,13 +112,13 @@ public class ItemServiceImpl implements ItemService {
             }
 
             Item item = optionalItem.get();
-            item.setBrand(item.getBrand());
-            item.setBuyingPrice(item.getBuyingPrice());
-            item.setItemId(item.getItemId());
-            item.setItemName(item.getItemName());
-            item.setQuantity(item.getQuantity());
-            item.setSellingPrice(item.getSellingPrice());
-            item.setItemStatus(item.getItemStatus());
+            item.setBrand(requestDTO.getBrand());
+            item.setBuyingPrice(requestDTO.getBuyingPrice());
+            item.setItemId(requestDTO.getItemId());
+            item.setItemName(requestDTO.getItemName());
+            item.setQuantity(requestDTO.getQuantity());
+            item.setSellingPrice(requestDTO.getSellingPrice());
+            item.setItemStatus(requestDTO.getItemStatus());
 
             Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(requestDTO.getCategoryId());
             if (!optionalItemCategory.isPresent()) {
@@ -200,6 +200,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void deleteItem(long id) {
         log.info("Execute method deleteItem :  @param : {}", id);
         try {

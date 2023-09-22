@@ -1,6 +1,7 @@
 package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
+import com.esoft.carservice.dto.requset.ItemFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveItemRequestDTO;
 import com.esoft.carservice.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,12 @@ public class ItemsController {
     public ResponseEntity<CommonResponse> deleteItem(@PathVariable long itemId) {
         itemService.deleteItem(itemId);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> itemFilter(@RequestBody ItemFilterRequestDTO dto) {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, itemService.getItemFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
