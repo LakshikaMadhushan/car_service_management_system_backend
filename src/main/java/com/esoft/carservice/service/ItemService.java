@@ -16,4 +16,6 @@ public interface ItemService {
     public void saveItem(UpdateSaveItemRequestDTO requestDTO);
 
     public List<GetItemResponseDTO> getItemFilter(ItemFilterRequestDTO requestDTO);
+
+    public void deleteItem(long id);
 }

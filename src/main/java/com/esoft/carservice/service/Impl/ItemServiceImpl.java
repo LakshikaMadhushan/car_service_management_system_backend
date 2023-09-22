@@ -129,7 +129,7 @@ public class ItemServiceImpl implements ItemService {
             itemRepository.save(item);
         } catch (Exception e) {
             log.error("Method updateItem : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
 
     }
@@ -147,13 +147,15 @@ public class ItemServiceImpl implements ItemService {
             }
 
             Item item = new Item();
-            item.setBrand(item.getBrand());
-            item.setBuyingPrice(item.getBuyingPrice());
-            item.setItemId(item.getItemId());
-            item.setItemName(item.getItemName());
-            item.setQuantity(item.getQuantity());
-            item.setSellingPrice(item.getSellingPrice());
-            item.setItemStatus(item.getItemStatus());
+            item.setBrand(requestDTO.getBrand());
+            item.setBuyingPrice(requestDTO.getBuyingPrice());
+            item.setItemId(requestDTO.getItemId());
+            item.setItemName(requestDTO.getItemName());
+            item.setQuantity(requestDTO.getQuantity());
+            item.setSellingPrice(requestDTO.getSellingPrice());
+            item.setItemStatus(requestDTO.getItemStatus());
+            item.setSellerName(requestDTO.getSellerName());
+
 
             Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(requestDTO.getCategoryId());
             if (!optionalItemCategory.isPresent()) {
@@ -164,7 +166,7 @@ public class ItemServiceImpl implements ItemService {
             itemRepository.save(item);
         } catch (Exception e) {
             log.error("Method saveItem : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
     }
 
@@ -193,6 +195,23 @@ public class ItemServiceImpl implements ItemService {
             return itemResponceDTOList;
         } catch (Exception e) {
             log.error("Method getItemFilter : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    public void deleteItem(long id) {
+        log.info("Execute method deleteItem :  @param : {}", id);
+        try {
+            Optional<Item> optionalItem = itemRepository.findById(id);
+            if (!optionalItem.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item you are finding cannot be found. ");
+            }
+            Item item = optionalItem.get();
+
+            itemRepository.delete(item);
+        } catch (Exception e) {
+            log.error("Method deleteItem : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
         }
     }

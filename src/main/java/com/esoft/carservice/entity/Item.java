@@ -21,6 +21,7 @@ public class Item {
     public double buyingPrice;
     public String brand;
     public int quantity;
+    @Enumerated(EnumType.STRING)
     public ItemStatus itemStatus;
     public String sellerName;
 

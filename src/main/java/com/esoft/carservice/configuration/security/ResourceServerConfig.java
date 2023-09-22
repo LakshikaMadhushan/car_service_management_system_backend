@@ -24,9 +24,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/v1/seeker/check/{email}").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/appointment").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/file").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/v1/items").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/items").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/items/{itemId}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/v1/items/{itemId}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/v1/items").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
         http.csrf().disable();

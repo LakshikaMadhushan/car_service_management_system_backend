@@ -51,4 +51,11 @@ public class ItemsController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> deleteItem(@PathVariable long itemId) {
+        itemService.deleteItem(itemId);
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
 }
