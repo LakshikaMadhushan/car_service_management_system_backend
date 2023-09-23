@@ -18,12 +18,12 @@ public class Technician {
     public long technicianId;
     public String name;
     public String address1;
-    public String address2;
     public UserStatus status;
     public String mobileNumber;
     public String email;
     public String password;
     public String qualification;
+    public String nic;
 
     @OneToMany(mappedBy = "technician")
     private List<Service> serviceList;

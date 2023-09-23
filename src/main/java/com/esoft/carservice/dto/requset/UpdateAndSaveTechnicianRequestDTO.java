@@ -12,9 +12,9 @@ public class UpdateAndSaveTechnicianRequestDTO {
     public long technicianId;
     public String name;
     public String address1;
-    public String address2;
     public UserStatus status;
     public String mobileNumber;
     public String email;
+    public String nic;
     public String password;
 }

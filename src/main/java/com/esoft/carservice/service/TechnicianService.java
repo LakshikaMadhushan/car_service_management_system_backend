@@ -1,5 +1,6 @@
 package com.esoft.carservice.service;
 
+import com.esoft.carservice.dto.requset.TechnicianFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateAndSaveTechnicianRequestDTO;
 import com.esoft.carservice.dto.responce.GetTechnicianResponseDTO;
 
@@ -13,4 +14,8 @@ public interface TechnicianService {
     public void updateTechnician(UpdateAndSaveTechnicianRequestDTO requestDTO);
 
     public void saveTechnician(UpdateAndSaveTechnicianRequestDTO requestDTO);
+
+    public List<GetTechnicianResponseDTO> getTechnicianFilter(TechnicianFilterRequestDTO requestDTO);
+
+    public void deleteTechnician(long id);
 }

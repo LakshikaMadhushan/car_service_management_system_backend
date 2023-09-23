@@ -2,6 +2,7 @@ package com.esoft.carservice.service.Impl;
 
 import com.esoft.carservice.configuration.exception.CustomException;
 import com.esoft.carservice.configuration.exception.ServiceException;
+import com.esoft.carservice.dto.requset.TechnicianFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateAndSaveTechnicianRequestDTO;
 import com.esoft.carservice.dto.responce.GetTechnicianResponseDTO;
 import com.esoft.carservice.entity.Technician;
@@ -39,7 +40,7 @@ public class TechnicianServiceImpl implements TechnicianService {
             for (Technician technician : technicianList) {
                 GetTechnicianResponseDTO getTechnicianResponseDTO = new GetTechnicianResponseDTO();
                 getTechnicianResponseDTO.setAddress1(technician.getAddress1());
-                getTechnicianResponseDTO.setAddress2(technician.getAddress2());
+                getTechnicianResponseDTO.setNic(technician.getNic());
                 getTechnicianResponseDTO.setEmail(technician.getEmail());
                 getTechnicianResponseDTO.setMobileNumber(technician.getMobileNumber());
                 getTechnicianResponseDTO.setName(technician.getName());
@@ -66,7 +67,7 @@ public class TechnicianServiceImpl implements TechnicianService {
             Technician technician = optionalTechnician.get();
             GetTechnicianResponseDTO getTechnicianResponseDTO = new GetTechnicianResponseDTO();
             getTechnicianResponseDTO.setAddress1(technician.getAddress1());
-            getTechnicianResponseDTO.setAddress2(technician.getAddress2());
+            getTechnicianResponseDTO.setNic(technician.getNic());
             getTechnicianResponseDTO.setEmail(technician.getEmail());
             getTechnicianResponseDTO.setMobileNumber(technician.getMobileNumber());
             getTechnicianResponseDTO.setName(technician.getName());
@@ -91,7 +92,7 @@ public class TechnicianServiceImpl implements TechnicianService {
             }
             Technician technician = optionalTechnician.get();
             technician.setAddress1(requestDTO.getAddress1());
-            technician.setAddress2(requestDTO.getAddress2());
+            technician.setNic(requestDTO.getNic());
             technician.setEmail(requestDTO.getEmail());
             technician.setMobileNumber(requestDTO.getMobileNumber());
             technician.setName(requestDTO.getName());
@@ -113,7 +114,7 @@ public class TechnicianServiceImpl implements TechnicianService {
         try {
             Technician technician = new Technician();
             technician.setAddress1(requestDTO.getAddress1());
-            technician.setAddress2(requestDTO.getAddress2());
+            technician.setNic(requestDTO.getNic());
             technician.setEmail(requestDTO.getEmail());
             technician.setMobileNumber(requestDTO.getMobileNumber());
             technician.setName(requestDTO.getName());
@@ -124,6 +125,49 @@ public class TechnicianServiceImpl implements TechnicianService {
             technicianRepository.save(technician);
         } catch (Exception e) {
             log.error("Method saveTechnician : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    public List<GetTechnicianResponseDTO> getTechnicianFilter(TechnicianFilterRequestDTO requestDTO) {
+        log.info("Execute method getTechnicianFilter : @param : {} ", requestDTO);
+        try {
+            List<Technician> technicianList = technicianRepository.getAllTechnicianFilter(requestDTO.getName(), requestDTO.getTechnicianId(), requestDTO.getEmail(), requestDTO.getNic(), requestDTO.getStatus());
+            List<GetTechnicianResponseDTO> technicianResponseDTOList = new ArrayList<>();
+            for (Technician technician : technicianList) {
+                GetTechnicianResponseDTO getTechnicianResponseDTO = new GetTechnicianResponseDTO();
+                getTechnicianResponseDTO.setAddress1(technician.getAddress1());
+                getTechnicianResponseDTO.setNic(technician.getNic());
+                getTechnicianResponseDTO.setEmail(technician.getEmail());
+                getTechnicianResponseDTO.setMobileNumber(technician.getMobileNumber());
+                getTechnicianResponseDTO.setName(technician.getName());
+                getTechnicianResponseDTO.setPassword(technician.getPassword());
+                getTechnicianResponseDTO.setStatus(technician.getStatus());
+                getTechnicianResponseDTO.setTechnicianId(technician.getTechnicianId());
+                technicianResponseDTOList.add(getTechnicianResponseDTO);
+            }
+            return technicianResponseDTOList;
+        } catch (Exception e) {
+            log.error("Method getTechnicianFilter : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void deleteTechnician(long id) {
+        log.info("Execute method deleteTechnician : @param : {} ", id);
+        try {
+            Optional<Technician> optionalTechnician = technicianRepository.findById(id);
+            if (!optionalTechnician.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the technician you are finding cannot be found. ");
+            }
+            Technician technician = optionalTechnician.get();
+
+            technicianRepository.delete(technician);
+        } catch (Exception e) {
+            log.error("Method deleteTechnician : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
         }
     }
