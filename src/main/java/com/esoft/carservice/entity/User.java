@@ -1,6 +1,7 @@
 package com.esoft.carservice.entity;
 
 import com.esoft.carservice.enums.UserRole;
+import com.esoft.carservice.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class User {
     public String password;
     public String name;
     public UserRole userRole;
+    public UserStatus status;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -10,9 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetAdminResponseDTO {
     public long adminId;
+    public long userId;
     public String name;
+    public String email;
     public String address1;
-    public String address2;
+    public String nic;
     public UserStatus status;
     public String mobileNumber;
     public String qualification;

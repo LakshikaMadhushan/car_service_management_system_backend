@@ -1,6 +1,5 @@
 package com.esoft.carservice.entity;
 
-import com.esoft.carservice.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +16,7 @@ public class Admin {
     public long adminId;
     public String name;
     public String address1;
-    public String address2;
-    public UserStatus status;
+    public String nic;
     public String mobileNumber;
     public String qualification;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "admin")

@@ -1,6 +1,7 @@
 package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
+import com.esoft.carservice.dto.requset.AdminFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveAdminRequestDTO;
 import com.esoft.carservice.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,12 @@ public class AdminController {
     public ResponseEntity<CommonResponse> saveAdmin(@RequestBody UpdateSaveAdminRequestDTO dto) {
         adminService.saveAdmin(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> itemFilter(@RequestBody AdminFilterRequestDTO dto) {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, adminService.getAdminFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 }

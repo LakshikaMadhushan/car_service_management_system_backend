@@ -1,5 +1,6 @@
 package com.esoft.carservice.service;
 
+import com.esoft.carservice.dto.requset.AdminFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveAdminRequestDTO;
 import com.esoft.carservice.dto.responce.GetAdminResponseDTO;
 
@@ -13,4 +14,6 @@ public interface AdminService {
     public void updateAdmin(UpdateSaveAdminRequestDTO requestDTO);
 
     public void saveAdmin(UpdateSaveAdminRequestDTO requestDTO);
+
+    public List<GetAdminResponseDTO> getAdminFilter(AdminFilterRequestDTO requestDTO);
 }

@@ -38,13 +38,19 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/v1/category/{itemCategoryId}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/category").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/category/filter").permitAll()
-                //Item category
+                //Technician category
                 .antMatchers(HttpMethod.POST, "/v1/technician").permitAll()
                 .antMatchers(HttpMethod.GET, "/v1/technician").permitAll()
                 .antMatchers(HttpMethod.GET, "/v1/technician/{technicianId}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/v1/technician/{technicianId}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/technician").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/technician/filter").permitAll()
+                //Admin category
+                .antMatchers(HttpMethod.POST, "/v1/admin").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/admin").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/admin/{adminId}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/v1/admin").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/admin/filter").permitAll()
 
                 .antMatchers("/**").authenticated()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
