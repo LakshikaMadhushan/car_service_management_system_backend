@@ -1,7 +1,7 @@
 package com.esoft.carservice.constant;
 
 public class Constant {
-    public static final String CLIEN_ID = "ass-client";
+    public static final String CLIEN_ID = "ass_client";
     public static final String CLIENT_SECRET = "ass-secret";
     public static final String GRANT_TYPE = "password";
     public static final String AUTHORIZATION_CODE = "authorization_code";

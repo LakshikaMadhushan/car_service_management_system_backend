@@ -1,28 +1,17 @@
 package com.esoft.carservice.util;
 
-import com.auth0.jwk.Jwk;
-import com.auth0.jwk.JwkProvider;
-import com.auth0.jwk.UrlJwkProvider;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.Header;
 import com.esoft.carservice.configuration.exception.CustomException;
-import com.esoft.carservice.configuration.exception.ServiceException;
 import com.esoft.carservice.entity.User;
 import com.esoft.carservice.repository.UserRepository;
 import com.esoft.carservice.service.UserService;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.net.URL;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Date;
 
 import static com.esoft.carservice.constant.ResponseCodes.*;
 
@@ -30,11 +19,11 @@ import static com.esoft.carservice.constant.ResponseCodes.*;
 @Component
 public class AccessTokenValidator {
 
-    @Value("${app-id}")
-    String appId;
-
-    @Value("${tenant-id}")
-    String tenantId;
+//    @Value("${app-id}")
+//    String appId;
+//
+//    @Value("${tenant-id}")
+//    String tenantId;
 
     private final UserRepository userRepository;
     private final UserService userService;
@@ -47,57 +36,57 @@ public class AccessTokenValidator {
     }
 
 
-    public boolean validate(String token){
+//    public boolean validate(String token){
+//        try {
+//            DecodedJWT jwt = JWT.decode(token);
+//
+//
+//            JwkProvider provider = null;
+//            Jwk jwk =null;
+//            Algorithm algorithm=null;
+//
+//
+//            provider = new UrlJwkProvider(new URL("https://login.microsoftonline.com/"+tenantId+"/discovery/v2.0/keys"));
+//            jwk = provider.get(jwt.getKeyId());
+//            algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
+//            algorithm.verify(jwt);// if the token signature is invalid, the method will throw SignatureVerificationException
+//        } catch(Exception e){
+//
+//            log.info("failed: "+e.getMessage());
+//            return false;
+//
+//        }
+//
+//        return true;
+//    }
+
+//    public boolean checkIntended(String token){
+//        try{
+//            int i = token.lastIndexOf('.');
+//            String withoutSignature = token.substring(0, i+1);
+//            Jwt<io.jsonwebtoken.Header, Claims> untrusted = Jwts.parser().parseClaimsJwt(withoutSignature);
+//
+//            String aud = untrusted.getBody().get("aud",String.class);
+//            Date expDate = untrusted.getBody().get("exp",Date.class);
+//
+//            if(!aud.equalsIgnoreCase(appId))return false;
+//            if(expDate.before(new Date()))return false;
+//
+//        }catch(Exception e){
+//            log.info(e.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public Jwt<io.jsonwebtoken.Header, Claims> getClaims(String token) {
         try {
-            DecodedJWT jwt = JWT.decode(token);
-
-
-            JwkProvider provider = null;
-            Jwk jwk =null;
-            Algorithm algorithm=null;
-
-
-            provider = new UrlJwkProvider(new URL("https://login.microsoftonline.com/"+tenantId+"/discovery/v2.0/keys"));
-            jwk = provider.get(jwt.getKeyId());
-            algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
-            algorithm.verify(jwt);// if the token signature is invalid, the method will throw SignatureVerificationException
-        } catch(Exception e){
-
-            log.info("failed: "+e.getMessage());
-            return false;
-
-        }
-
-        return true;
-    }
-
-    public boolean checkIntended(String token){
-        try{
-            int i = token.lastIndexOf('.');
-            String withoutSignature = token.substring(0, i+1);
-            Jwt<io.jsonwebtoken.Header, Claims> untrusted = Jwts.parser().parseClaimsJwt(withoutSignature);
-
-            String aud = untrusted.getBody().get("aud",String.class);
-            Date expDate = untrusted.getBody().get("exp",Date.class);
-
-            if(!aud.equalsIgnoreCase(appId))return false;
-            if(expDate.before(new Date()))return false;
-
-        }catch(Exception e){
-            log.info(e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    public Jwt<io.jsonwebtoken.Header,Claims> getClaims(String token){
-        try{
 
             int i = token.lastIndexOf('.');
-            String withoutSignature = token.substring(0, i+1);
+            String withoutSignature = token.substring(0, i + 1);
             Jwt<io.jsonwebtoken.Header, Claims> untrusted = Jwts.parser().parseClaimsJwt(withoutSignature);
             return untrusted;
-        }catch(Exception e){
+        } catch (Exception e) {
             log.info(e.getMessage());
         }
         return null;

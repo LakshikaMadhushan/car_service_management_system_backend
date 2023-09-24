@@ -19,7 +19,9 @@ public class User {
     public String email;
     public String password;
     public String name;
+    @Enumerated(EnumType.STRING)
     public UserRole userRole;
+    @Enumerated(EnumType.STRING)
     public UserStatus status;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;

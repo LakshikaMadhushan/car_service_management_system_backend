@@ -22,8 +22,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        String apiVersion = "/v1";
         http
                 .authorizeRequests()
+                .antMatchers(apiVersion + "/request/token").permitAll()
+                .antMatchers(apiVersion + "/oauth/token").permitAll()
                 //Item
                 .antMatchers(HttpMethod.POST, "/v1/items").permitAll()
                 .antMatchers(HttpMethod.GET, "/v1/items").permitAll()
@@ -52,7 +55,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/v1/admin").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/admin/filter").permitAll()
 
-                .antMatchers("/**").authenticated()
+//                .antMatchers("/**").authenticated()
+                .antMatchers("/**").permitAll()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
         http.csrf().disable();
     }
