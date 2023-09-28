@@ -41,6 +41,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
                 GetAllItemCategoryResponseDTO getAllItemCategoryResponseDTO = new GetAllItemCategoryResponseDTO();
                 getAllItemCategoryResponseDTO.setCategoryId(itemCategory.getItemCategoryId());
                 getAllItemCategoryResponseDTO.setCategoryName(itemCategory.getName());
+                itemCategoryResponseDTOList.add(getAllItemCategoryResponseDTO);
             }
             return itemCategoryResponseDTOList;
         } catch (Exception e) {

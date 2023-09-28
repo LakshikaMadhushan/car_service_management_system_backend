@@ -24,7 +24,9 @@ public class UserAuthServiceImpl implements UserDetailsService, UserAuthService 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
+            System.out.println("start");
             Optional<User> user = userRepo.findLatestByEmail(username);
+            System.out.println("user " + user.get().toString());
             if (!user.isPresent()) throw new UsernameNotFoundException("Invalid username or password.");
             return new org.springframework.security.core.userdetails.User(user.get().getName(), user.get().getPassword(), getAuthority(user.get()));
         } catch (Exception e) {
