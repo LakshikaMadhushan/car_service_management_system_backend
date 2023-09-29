@@ -1,22 +1,16 @@
-package com.esoft.carservice.dto.responce;
+package com.esoft.carservice.dto.requset;
 
 import com.esoft.carservice.enums.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class GetMechanicServiceResponseDTO {
+@NoArgsConstructor
+@Data
+public class MechanicServiceFilterRequestDTO {
     public long mechanicServiceId;
     public long mechanicServiceCategoryId;
-    public String mechanicServiceCategoryName;
     public String name;
-    public double price;
-    @Enumerated(EnumType.STRING)
     public VehicleType vehicleType;
 }

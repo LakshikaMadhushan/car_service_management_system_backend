@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ItemCategoryRepository extends JpaRepository<ItemCategory, Long> {
-    @Query(value = "SELECT * FROM  i WHERE i.name=?1 AND i.item_category_id!=?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM item_category i WHERE i.name=?1 AND i.item_category_id!=?2", nativeQuery = true)
     List<ItemCategory> findItemByItemCategoryNameUpdate(String name, long id);
 
     @Query(value = "SELECT * FROM item_category i WHERE i.name=?1", nativeQuery = true)

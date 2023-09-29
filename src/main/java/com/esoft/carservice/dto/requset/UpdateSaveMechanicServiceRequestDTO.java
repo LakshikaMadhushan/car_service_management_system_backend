@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 @AllArgsConstructor
 public class UpdateSaveMechanicServiceRequestDTO {
     public long mechanicServiceId;
+    public long mechanicServiceCategoryId;
     public String name;
     public double price;
     @Enumerated(EnumType.STRING)

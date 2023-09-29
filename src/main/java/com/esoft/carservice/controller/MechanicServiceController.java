@@ -1,6 +1,7 @@
 package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
+import com.esoft.carservice.dto.requset.MechanicServiceFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveMechanicServiceRequestDTO;
 import com.esoft.carservice.service.MechanicServiceService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,19 @@ public class MechanicServiceController {
     public ResponseEntity<CommonResponse> saveMechanicService(@RequestBody UpdateSaveMechanicServiceRequestDTO dto) {
         mechanicServiceService.saveMechanicService(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{mechanicServiceId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> deleteItem(@PathVariable long mechanicServiceId) {
+        mechanicServiceService.deleteMechanicService(mechanicServiceId);
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> itemFilter(@RequestBody MechanicServiceFilterRequestDTO dto) {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, mechanicServiceService.getMechanicServiceFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 }

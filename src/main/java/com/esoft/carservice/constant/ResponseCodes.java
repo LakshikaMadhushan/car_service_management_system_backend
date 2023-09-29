@@ -10,6 +10,7 @@ public class ResponseCodes {
     public static final int USER_NOT_FOUND = 404;
     public static final int RESOURCE_NOT_FOUND = 405;
     public static final int INVALID_INPUT = 406;
+    public static final int DUPLICATE_INPUT = 407;
 
 
     public static final int CANNOT_DELETE = 425;

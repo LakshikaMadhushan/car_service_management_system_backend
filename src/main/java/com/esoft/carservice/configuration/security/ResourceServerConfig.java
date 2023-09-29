@@ -54,6 +54,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/v1/admin/{adminId}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/admin").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/admin/filter").permitAll()
+                //Manage category category
+                .antMatchers(HttpMethod.POST, "/v1/mechanic-service").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/mechanic-service").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/mechanic-service/{mechanicServiceId}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/v1/mechanic-service").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/mechanic-service/filter").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/v1/mechanic-service/{mechanicServiceId}").permitAll()
 
 //                .antMatchers("/**").authenticated()
                 .antMatchers("/**").permitAll()
