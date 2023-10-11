@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long serviceId;
-    public String service_date;
+    public Date service_date;
     @Enumerated(EnumType.STRING)
     public ServiceType type;
     public String cost;
