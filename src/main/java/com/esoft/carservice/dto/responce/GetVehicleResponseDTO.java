@@ -25,4 +25,5 @@ public class GetVehicleResponseDTO {
     @Enumerated(EnumType.STRING)
     public VehicleType vehicleType;
     public long customerId;
+    public String customerName;
 }
