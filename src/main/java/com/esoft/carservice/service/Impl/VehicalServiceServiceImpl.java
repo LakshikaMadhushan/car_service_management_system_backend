@@ -149,7 +149,7 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             service.setCost(requestDTO.getCost());
 
             List<ServiceDetails> serviceDetailsList = new ArrayList<>();
-            for (SaveServiceDetailsRequestDTO saveServiceDetailsRequestDTO : requestDTO.getSaveServiceDetailsRequestDTOS()) {
+            for (SaveServiceDetailsRequestDTO saveServiceDetailsRequestDTO : requestDTO.getSaveServiceDetails()) {
                 ServiceDetails serviceDetails = new ServiceDetails();
 
                 serviceDetailsList.add(serviceDetails);
