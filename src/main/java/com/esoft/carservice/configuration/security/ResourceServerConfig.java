@@ -71,6 +71,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //Manage vehicle service
                 .antMatchers(HttpMethod.GET, "/v1/service/{serviceId}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/service").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/service").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/service/filter").permitAll()
                 //Manage vehicle
                 .antMatchers(HttpMethod.GET, "/v1/vehicle/{vehicleId}").permitAll()

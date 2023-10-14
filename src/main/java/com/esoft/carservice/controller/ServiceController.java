@@ -46,4 +46,11 @@ public class ServiceController {
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicalServiceService.getServiceFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
+
+
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> serviceSaveWithDetails(@RequestBody ServiceFilterRequestDTO dto) {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicalServiceService.getServiceFilter(dto),
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
 }

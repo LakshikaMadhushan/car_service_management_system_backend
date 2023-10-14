@@ -1,5 +1,6 @@
 package com.esoft.carservice.service;
 
+import com.esoft.carservice.dto.requset.SaveServiceRequestDTO;
 import com.esoft.carservice.dto.requset.ServiceFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateAndSaveServiceRequestDTO;
 import com.esoft.carservice.dto.responce.GetServiceResponseDTO;
@@ -13,5 +14,7 @@ public interface VehicalServiceService {
     public void updateService(UpdateAndSaveServiceRequestDTO requestDTO);
 
     public List<GetServiceResponseDTO> getServiceFilter(ServiceFilterRequestDTO requestDTO);
+
+    public void saveService(SaveServiceRequestDTO requestDTO);
 
 }

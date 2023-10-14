@@ -2,9 +2,12 @@ package com.esoft.carservice.service.Impl;
 
 import com.esoft.carservice.configuration.exception.CustomException;
 import com.esoft.carservice.configuration.exception.ServiceException;
+import com.esoft.carservice.dto.requset.SaveServiceDetailsRequestDTO;
+import com.esoft.carservice.dto.requset.SaveServiceRequestDTO;
 import com.esoft.carservice.dto.requset.ServiceFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateAndSaveServiceRequestDTO;
 import com.esoft.carservice.dto.responce.GetServiceResponseDTO;
+import com.esoft.carservice.entity.ServiceDetails;
 import com.esoft.carservice.entity.Technician;
 import com.esoft.carservice.entity.Vehicle;
 import com.esoft.carservice.repository.ServiceRepository;
@@ -112,7 +115,6 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
                 getServiceResponseDTO.setTechnicianName(service.getTechnician().getName());
                 getServiceResponseDTO.setNumberPlate(service.getVehicle().getNumberPlate());
                 getServiceResponseDTO.setService_date(service.getService_date());
-                getServiceResponseDTO.setServiceId(service.getServiceId());
                 getServiceResponseDTO.setTechnicianId(service.getTechnician().getTechnicianId());
                 getServiceResponseDTO.setType(service.getType());
                 getServiceResponseDTO.setVehicleId(service.getVehicle().getVehicleId());
@@ -121,6 +123,42 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             return serviceResponseDTOList;
         } catch (Exception e) {
             log.error("Method getServiceFilter : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void saveService(SaveServiceRequestDTO requestDTO) {
+        log.info("Execute method updateService : @param : {} ", requestDTO);
+        try {
+
+            com.esoft.carservice.entity.Service service = new com.esoft.carservice.entity.Service();
+            Optional<Vehicle> optionalVehicle = vehicleRepository.findById(requestDTO.getVehicleId());
+            if (!optionalVehicle.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the vehicle you are finding cannot be found. ");
+            }
+            Optional<Technician> optionalTechnician = technicianRepository.findById(requestDTO.technicianId);
+            if (!optionalTechnician.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the technician you are finding cannot be found. ");
+            }
+            service.setVehicle(optionalVehicle.get());
+            service.setTechnician(optionalTechnician.get());
+            service.setType(requestDTO.getType());
+            service.setService_date(requestDTO.getService_date());
+            service.setCost(requestDTO.getCost());
+
+            List<ServiceDetails> serviceDetailsList = new ArrayList<>();
+            for (SaveServiceDetailsRequestDTO saveServiceDetailsRequestDTO : requestDTO.getSaveServiceDetailsRequestDTOS()) {
+                ServiceDetails serviceDetails = new ServiceDetails();
+
+                serviceDetailsList.add(serviceDetails);
+            }
+
+            service.setServiceDetailsList(serviceDetailsList);
+            serviceRepository.save(service);
+        } catch (Exception e) {
+            log.error("Method updateService : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
         }
     }
