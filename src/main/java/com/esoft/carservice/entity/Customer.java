@@ -1,6 +1,5 @@
 package com.esoft.carservice.entity;
 
-import com.esoft.carservice.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,6 @@ public class Customer {
     public String name;
     public String address1;
     public String address2;
-    public UserStatus status;
     public String mobileNumber;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")

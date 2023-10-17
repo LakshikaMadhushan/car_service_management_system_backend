@@ -43,7 +43,6 @@ public class CustomerServiceImpl implements CustomerService {
                 getCustomerResponseDTO.setCustomerId(customer.getCustomerId());
                 getCustomerResponseDTO.setMobileNumber(customer.getMobileNumber());
                 getCustomerResponseDTO.setName(customer.getName());
-                getCustomerResponseDTO.setStatus(customer.getStatus());
 
                 getCustomerResponseDTOS.add(getCustomerResponseDTO);
             }
@@ -71,7 +70,6 @@ public class CustomerServiceImpl implements CustomerService {
             getCustomerResponseDTO.setCustomerId(customer.getCustomerId());
             getCustomerResponseDTO.setMobileNumber(customer.getMobileNumber());
             getCustomerResponseDTO.setName(customer.getName());
-            getCustomerResponseDTO.setStatus(customer.getStatus());
 
 
             return getCustomerResponseDTO;
@@ -98,7 +96,6 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setCustomerId(requestDTO.getCustomerId());
             customer.setMobileNumber(requestDTO.getMobileNumber());
             customer.setName(requestDTO.getName());
-            customer.setStatus(requestDTO.getStatus());
 
             customerRepository.save(customer);
 
@@ -119,7 +116,6 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setAddress2(requestDTO.getAddress2());
             customer.setMobileNumber(requestDTO.getMobileNumber());
             customer.setName(requestDTO.getName());
-            customer.setStatus(requestDTO.getStatus());
 
             customerRepository.save(customer);
         } catch (Exception e) {
