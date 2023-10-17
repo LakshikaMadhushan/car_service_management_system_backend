@@ -16,11 +16,11 @@ import static com.esoft.carservice.constant.ResponseMessages.SUCCESS_RESPONSE;
 @RestController
 @CrossOrigin
 @RequestMapping("v1/category")
-public class CategoryController {
+public class ItemCategoryController {
 
     private final ItemCategoryService itemCategoryService;
 
-    public CategoryController(ItemCategoryService itemCategoryService) {
+    public ItemCategoryController(ItemCategoryService itemCategoryService) {
         this.itemCategoryService = itemCategoryService;
     }
 
