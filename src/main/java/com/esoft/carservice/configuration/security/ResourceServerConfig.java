@@ -78,6 +78,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/v1/vehicle").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/vehicle").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/vehicle/filter").permitAll()
+                //Manage report
+                .antMatchers(HttpMethod.POST, "/v1/report/filter").permitAll()
 
 
 //                .antMatchers("/**").authenticated()
