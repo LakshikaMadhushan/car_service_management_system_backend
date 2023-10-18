@@ -2,6 +2,7 @@ package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
 import com.esoft.carservice.dto.requset.SaveServiceDetailsRequestDTO;
+import com.esoft.carservice.dto.requset.ServiceDetailsFilterRequestDTO;
 import com.esoft.carservice.service.VehicleServiceDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,7 @@ public class ServiceDetailsController {
     }
 
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> serviceDetailsFilter(@RequestBody SaveServiceDetailsRequestDTO dto) {
+    public ResponseEntity<CommonResponse> serviceDetailsFilter(@RequestBody ServiceDetailsFilterRequestDTO dto) {
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicleServiceDetailsService.getServiceFilterDetail(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
