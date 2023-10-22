@@ -1,11 +1,9 @@
 package com.esoft.carservice.service;
 
 import com.esoft.carservice.dto.requset.AdminReportFilterRequestDTO;
-import com.esoft.carservice.dto.responce.GetServiceDetailsResponseDTO;
-
-import java.util.List;
+import com.esoft.carservice.dto.responce.AdminAllReportResponseDTO;
 
 public interface ReportService {
 
-    public List<GetServiceDetailsResponseDTO> getAllAdminReport(AdminReportFilterRequestDTO requestDTO);
+    public AdminAllReportResponseDTO getAllAdminReport(AdminReportFilterRequestDTO requestDTO);
 }

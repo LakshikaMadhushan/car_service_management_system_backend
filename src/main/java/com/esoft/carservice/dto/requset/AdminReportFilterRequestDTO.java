@@ -15,7 +15,6 @@ public class AdminReportFilterRequestDTO {
     public long customerId;
     public Date start;
     public Date end;
-    public String vehicleId;
-    public String contactNo;
+    public long vehicleId;
     public ServiceType type;
 }

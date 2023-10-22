@@ -21,8 +21,12 @@ public class AdminReportResponseDTO {
     public ServiceType type;
     public String cost;
     public List<GetServiceDetailsResponseDTO> serviceDetailsResponseDTOS;
-    public GetVehicleResponseDTO vehicle;
-    public GetTechnicianResponseDTO technician;
+    public long vehicleId;
+    public String vehicle;
+    public long technicianId;
+    public String technician;
+    public String customer;
+    public long customerId;
 
 
 }
