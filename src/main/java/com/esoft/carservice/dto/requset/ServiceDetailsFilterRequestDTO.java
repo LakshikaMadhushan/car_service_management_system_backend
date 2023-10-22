@@ -17,4 +17,5 @@ public class ServiceDetailsFilterRequestDTO {
     public long serviceId;
     public long itemId;
     public long mechanicServiceId;
+    public long serviceDetailId;
 }
