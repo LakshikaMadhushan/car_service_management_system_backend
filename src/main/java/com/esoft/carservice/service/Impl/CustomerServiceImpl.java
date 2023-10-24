@@ -2,6 +2,7 @@ package com.esoft.carservice.service.Impl;
 
 import com.esoft.carservice.configuration.exception.CustomException;
 import com.esoft.carservice.configuration.exception.ServiceException;
+import com.esoft.carservice.dto.requset.CustomerFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveCustomer;
 import com.esoft.carservice.dto.responce.GetCustomerResponseDTO;
 import com.esoft.carservice.entity.Customer;
@@ -120,6 +121,34 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.save(customer);
         } catch (Exception e) {
             log.error("Method saveCustomer : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    public List<GetCustomerResponseDTO> getCustomerFilter(CustomerFilterRequestDTO requestDTO) {
+        log.info("Execute method getAllCustomer :  @param : {} ", requestDTO);
+        try {
+            String userStatus = null;
+            if (requestDTO.getUserStatus() != null) {
+                userStatus = requestDTO.getUserStatus().toString();
+            }
+            customerRepository.getAllCustomerFilter(requestDTO.getContactNo(), requestDTO.getAdminId(), requestDTO.getEmail(), requestDTO.getUserId(), requestDTO.getNic(), userStatus);
+            List<Customer> customerList = customerRepository.findAll();
+            List<GetCustomerResponseDTO> getCustomerResponseDTOS = new ArrayList<>();
+            for (Customer customer : customerList) {
+                GetCustomerResponseDTO getCustomerResponseDTO = new GetCustomerResponseDTO();
+                getCustomerResponseDTO.setAddress1(customer.getAddress1());
+                getCustomerResponseDTO.setAddress2(customer.getAddress2());
+                getCustomerResponseDTO.setCustomerId(customer.getCustomerId());
+                getCustomerResponseDTO.setMobileNumber(customer.getMobileNumber());
+                getCustomerResponseDTO.setName(customer.getName());
+
+                getCustomerResponseDTOS.add(getCustomerResponseDTO);
+            }
+            return getCustomerResponseDTOS;
+        } catch (Exception e) {
+            log.error("Method getAllCustomer : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
         }
     }

@@ -18,6 +18,7 @@ public class Customer {
     public String name;
     public String address1;
     public String address2;
+    public String nic;
     public String mobileNumber;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")

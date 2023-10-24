@@ -1,6 +1,7 @@
 package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
+import com.esoft.carservice.dto.requset.CustomerFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveCustomer;
 import com.esoft.carservice.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,12 @@ public class CustomerController {
     public ResponseEntity<CommonResponse> saveCustomer(@RequestBody UpdateSaveCustomer dto) {
         customerService.saveCustomer(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> itemFilter(@RequestBody CustomerFilterRequestDTO dto) {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, customerService.getCustomerFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 }
