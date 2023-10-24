@@ -19,7 +19,7 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
             "        (?2 = 0 OR s.vehicle_vehicle_id=?2) AND\n" +
             "        (?3 IS NULL OR s.type=?3) AND\n" +
             "        (?4 IS NULL OR s.service_date BETWEEN ?4 AND ?5) AND\n" +
-            "        (?5 IS NULL OR s.vehicle_vehicle_id IN (SELECT v.vehicle_id FROM vehicle v where v.customer_customer_id=?5))\n" +
+            "        (?6 = 0 OR s.vehicle_vehicle_id IN (SELECT v.vehicle_id FROM vehicle v where v.customer_customer_id=?6))\n" +
             "        ORDER BY s.service_id DESC ", nativeQuery = true)
-    List<Service> getAdminReportFilter(long technicianId, long vehicleId, ServiceType type, Date startDate, Date endDate, long customerId);
+    List<Service> getAdminReportFilter(long technicianId, long vehicleId, String type, Date startDate, Date endDate, long customerId);
 }

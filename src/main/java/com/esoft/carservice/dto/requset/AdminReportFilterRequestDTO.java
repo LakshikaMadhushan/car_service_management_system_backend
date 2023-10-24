@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -13,7 +15,9 @@ import java.util.Date;
 public class AdminReportFilterRequestDTO {
     public long technicianId;
     public long customerId;
+    @Temporal(TemporalType.DATE)
     public Date start;
+    @Temporal(TemporalType.DATE)
     public Date end;
     public long vehicleId;
     public ServiceType type;
