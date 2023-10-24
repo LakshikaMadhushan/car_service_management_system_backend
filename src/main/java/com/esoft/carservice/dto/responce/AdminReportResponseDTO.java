@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class AdminReportResponseDTO {
 
     public long serviceId;
+    @Temporal(TemporalType.DATE)
     public Date service_date;
     @Enumerated(EnumType.STRING)
     public ServiceType type;

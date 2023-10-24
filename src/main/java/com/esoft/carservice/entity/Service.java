@@ -17,6 +17,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long serviceId;
+    @Temporal(TemporalType.DATE)
     public Date service_date;
     @Enumerated(EnumType.STRING)
     public ServiceType type;
