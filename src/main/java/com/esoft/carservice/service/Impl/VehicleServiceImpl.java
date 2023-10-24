@@ -39,6 +39,36 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
+    public List<GetVehicleResponseDTO> getAllVehicle() {
+        log.info("Execute method getAllVehicle");
+        try {
+            List<Vehicle> vehicles = vehicleRepository.findAll();
+
+            List<GetVehicleResponseDTO> getVehicleResponseDTOs = new ArrayList<>();
+            for (Vehicle vehicle : vehicles) {
+                GetVehicleResponseDTO getVehicleResponseDTO = new GetVehicleResponseDTO();
+                getVehicleResponseDTO.setCategory(vehicle.getCategory());
+                getVehicleResponseDTO.setColour(vehicle.getColour());
+                getVehicleResponseDTO.setCustomerId(vehicle.getCustomer().getCustomerId());
+                getVehicleResponseDTO.setEngineCapacity(vehicle.getEngineCapacity());
+                getVehicleResponseDTO.setMileage(vehicle.getMileage());
+                getVehicleResponseDTO.setNextMileage(vehicle.getNextMileage());
+                getVehicleResponseDTO.setNumberPlate(vehicle.getNumberPlate());
+                getVehicleResponseDTO.setStatus(vehicle.getStatus());
+                getVehicleResponseDTO.setVehicleType(vehicle.getVehicleType());
+                getVehicleResponseDTO.setVehicleId(vehicle.getVehicleId());
+                getVehicleResponseDTOs.add(getVehicleResponseDTO);
+            }
+
+            return getVehicleResponseDTOs;
+
+        } catch (Exception e) {
+            log.error("Method getAllVehicle : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
     public GetVehicleResponseDTO getVehicle(long id) {
         log.info("Execute method getService :  @param : {}", id);
         try {

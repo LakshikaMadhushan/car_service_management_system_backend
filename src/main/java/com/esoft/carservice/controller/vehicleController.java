@@ -25,29 +25,36 @@ public class vehicleController {
         this.vehicleService = vehicleService;
     }
 
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> getAllVehicle() {
+
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicleService.getAllVehicle(),
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{vehicleId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> getItem(@PathVariable long vehicleId) {
+    public ResponseEntity<CommonResponse> getVehicle(@PathVariable long vehicleId) {
 
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicleService.getVehicle(vehicleId),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
     @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> updateAdmin(@RequestBody UpdateSaveVehicleRequestDTO dto) {
+    public ResponseEntity<CommonResponse> updateVehicle(@RequestBody UpdateSaveVehicleRequestDTO dto) {
         vehicleService.updateVehicle(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> saveAdmin(@RequestBody UpdateSaveVehicleRequestDTO dto) {
+    public ResponseEntity<CommonResponse> saveVehicle(@RequestBody UpdateSaveVehicleRequestDTO dto) {
         vehicleService.saveVehicle(dto);
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> itemFilter(@RequestBody VehicleFilterRequestDTO dto) {
+    public ResponseEntity<CommonResponse> vehicleFilter(@RequestBody VehicleFilterRequestDTO dto) {
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicleService.getVehicleFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }

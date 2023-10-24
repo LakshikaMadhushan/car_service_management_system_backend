@@ -7,6 +7,8 @@ import com.esoft.carservice.dto.responce.GetVehicleResponseDTO;
 import java.util.List;
 
 public interface VehicleService {
+    public List<GetVehicleResponseDTO> getAllVehicle();
+
     public GetVehicleResponseDTO getVehicle(long id);
 
     public void updateVehicle(UpdateSaveVehicleRequestDTO requestDTO);
