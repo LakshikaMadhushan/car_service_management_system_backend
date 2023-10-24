@@ -181,7 +181,11 @@ public class AdminServiceImpl implements AdminService {
     public List<GetAdminResponseDTO> getAdminFilter(AdminFilterRequestDTO requestDTO) {
         log.info("Execute method getAdminFilter: @param : {}", requestDTO);
         try {
-            List<Admin> adminList = adminRepository.getAllAdminFilter(requestDTO.getContactNo(), requestDTO.getAdminId(), requestDTO.getEmail(), requestDTO.getUserId(), requestDTO.getNic(), requestDTO.getUserStatus());
+            String userStatus = null;
+            if (requestDTO.getUserStatus() != null) {
+                userStatus = requestDTO.getUserStatus().toString();
+            }
+            List<Admin> adminList = adminRepository.getAllAdminFilter(requestDTO.getContactNo(), requestDTO.getAdminId(), requestDTO.getEmail(), requestDTO.getUserId(), requestDTO.getNic(), userStatus);
             List<GetAdminResponseDTO> getAdminResponseDTOList = new ArrayList<>();
             for (Admin admin : adminList) {
                 GetAdminResponseDTO getAdminResponseDTO = new GetAdminResponseDTO();
