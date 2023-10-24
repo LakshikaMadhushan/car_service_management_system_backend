@@ -133,8 +133,8 @@ public class CustomerServiceImpl implements CustomerService {
             if (requestDTO.getUserStatus() != null) {
                 userStatus = requestDTO.getUserStatus().toString();
             }
-            customerRepository.getAllCustomerFilter(requestDTO.getContactNo(), requestDTO.getAdminId(), requestDTO.getEmail(), requestDTO.getUserId(), requestDTO.getNic(), userStatus);
-            List<Customer> customerList = customerRepository.findAll();
+            List<Customer> customerList = customerRepository.getAllCustomerFilter(requestDTO.getContactNo(), requestDTO.getAdminId(), requestDTO.getEmail(), requestDTO.getUserId(), requestDTO.getNic(), userStatus);
+
             List<GetCustomerResponseDTO> getCustomerResponseDTOS = new ArrayList<>();
             for (Customer customer : customerList) {
                 GetCustomerResponseDTO getCustomerResponseDTO = new GetCustomerResponseDTO();
@@ -143,6 +143,7 @@ public class CustomerServiceImpl implements CustomerService {
                 getCustomerResponseDTO.setCustomerId(customer.getCustomerId());
                 getCustomerResponseDTO.setMobileNumber(customer.getMobileNumber());
                 getCustomerResponseDTO.setName(customer.getName());
+                getCustomerResponseDTO.setNic(customer.getNic());
 
                 getCustomerResponseDTOS.add(getCustomerResponseDTO);
             }
