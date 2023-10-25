@@ -174,7 +174,11 @@ public class ItemServiceImpl implements ItemService {
     public List<GetItemResponseDTO> getItemFilter(ItemFilterRequestDTO requestDTO) {
         log.info("Execute method getItemFilter : @param : {} ", requestDTO);
         try {
-            List<Item> itemList = itemRepository.getAllItemFilter(requestDTO.getName(), requestDTO.getCategoryId());
+            String itemStatus = null;
+            if (requestDTO.getStatus() != null) {
+                itemStatus = requestDTO.getStatus().toString();
+            }
+            List<Item> itemList = itemRepository.getAllItemFilter(requestDTO.getName(), requestDTO.getCategoryId(), itemStatus);
             List<GetItemResponseDTO> itemResponceDTOList = new ArrayList<>();
             for (Item item : itemList) {
                 GetItemResponseDTO getItemResponseDTO = new GetItemResponseDTO();

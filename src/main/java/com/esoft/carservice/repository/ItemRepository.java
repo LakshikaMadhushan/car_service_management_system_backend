@@ -14,6 +14,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query(value = "SELECT * FROM item i WHERE i.item_name=?1 AND i.item_id!=?2", nativeQuery = true)
     List<Item> findItemByItemNameUpdate(String name, long id);
 
-    @Query(value = "SELECT * FROM item i WHERE (?1 IS NULL OR i.item_name LIKE %?1%) AND (?2 = 0 OR i.item_category_item_category_id=?2) ORDER BY i.item_id DESC", nativeQuery = true)
-    List<Item> getAllItemFilter(String name, long id);
+    @Query(value = "SELECT * FROM item i WHERE (?1 IS NULL OR i.item_name LIKE %?1%) AND (?2 = 0 OR i.item_category_item_category_id=?2) AND (?3 IS NULL OR i.item_status =?3) ORDER BY i.item_id DESC", nativeQuery = true)
+    List<Item> getAllItemFilter(String name, long id, String status);
 }
