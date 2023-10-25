@@ -1,5 +1,5 @@
 package com.esoft.carservice.enums;
 
 public enum VehicleType {
-    SUV,HYBRID,MINI
+    SUV, HYBRID, MINI, ALL
 }

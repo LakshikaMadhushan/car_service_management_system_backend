@@ -151,7 +151,11 @@ public class MechanicServiceServiceImpl implements MechanicServiceService {
     public List<GetMechanicServiceResponseDTO> getMechanicServiceFilter(MechanicServiceFilterRequestDTO requestDTO) {
         log.info("Execute method getItemFilter : @param : {} ", requestDTO);
         try {
-            List<MechanicService> mechanicServiceFilter = mechanicServiceRepository.getAllMechanicServiceFilter(requestDTO.getName(), requestDTO.getMechanicServiceId(), requestDTO.getVehicleType());
+            String vehicleType = null;
+            if (requestDTO.getVehicleType() != null) {
+                vehicleType = requestDTO.getVehicleType().toString();
+            }
+            List<MechanicService> mechanicServiceFilter = mechanicServiceRepository.getAllMechanicServiceFilter(requestDTO.getName(), requestDTO.getMechanicServiceId(), vehicleType);
             List<GetMechanicServiceResponseDTO> mechanicServiceResponseDTOList = new ArrayList<>();
             for (MechanicService mechanicService : mechanicServiceFilter) {
                 GetMechanicServiceResponseDTO getMechanicServiceResponseDTO = new GetMechanicServiceResponseDTO();
