@@ -19,6 +19,7 @@ public class Admin {
     public String nic;
     public String mobileNumber;
     public String qualification;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "admin")
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
 }

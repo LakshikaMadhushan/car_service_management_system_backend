@@ -20,9 +20,9 @@ public class Customer {
     public String address2;
     public String nic;
     public String mobileNumber;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
+
     @OneToMany(mappedBy = "customer")
     private List<Vehicle> vehicleList;
     @OneToMany(mappedBy = "customer")

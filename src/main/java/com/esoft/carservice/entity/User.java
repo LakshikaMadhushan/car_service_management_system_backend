@@ -23,8 +23,8 @@ public class User {
     public UserRole userRole;
     @Enumerated(EnumType.STRING)
     public UserStatus status;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Customer customer;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Admin admin;
 }
