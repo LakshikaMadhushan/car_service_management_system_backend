@@ -14,6 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM user u WHERE u.email=?1 OR u.nic=?2", nativeQuery = true)
     List<User> checkEmailANDNic(String email, String nic);
 
-    @Query(value = "SELECT * FROM user u WHERE u.email=?1 OR u.nic=?2 AND u.user_id!=?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM user u WHERE (u.email=?1 OR u.nic=?2) AND u.user_id!=?3", nativeQuery = true)
     List<User> checkEmailANDNicUpdate(String email, String nic, long id);
 }

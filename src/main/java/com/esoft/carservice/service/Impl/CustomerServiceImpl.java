@@ -117,7 +117,9 @@ public class CustomerServiceImpl implements CustomerService {
             user.setStatus(requestDTO.getStatus());
             user.setName(requestDTO.getName());
             user.setNic(requestDTO.getNic());
-            user.setPassword(passwordEncoder.encode(requestDTO.getCustomerPassword()));
+            if (requestDTO.getCustomerPassword() != null) {
+                user.setPassword(passwordEncoder.encode(requestDTO.getCustomerPassword()));
+            }
             user.setEmail(requestDTO.getCustomerEmail());
 
             userRepository.save(user);
@@ -162,10 +164,11 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setMobileNumber(requestDTO.getMobileNumber());
             customer.setName(requestDTO.getName());
 
-            customerRepository.save(customer);
-            user.setCustomer(customer);
-
             userRepository.save(user);
+            customer.setUser(user);
+            customerRepository.save(customer);
+
+
             log.info("final");
         } catch (Exception e) {
             log.error("Method saveCustomer : " + e.getMessage(), e);
