@@ -16,4 +16,5 @@ public class GetCustomerResponseDTO {
     public UserStatus status;
     public String mobileNumber;
     public String nic;
+    public String email;
 }

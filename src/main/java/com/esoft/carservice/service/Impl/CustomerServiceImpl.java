@@ -144,6 +144,8 @@ public class CustomerServiceImpl implements CustomerService {
                 getCustomerResponseDTO.setMobileNumber(customer.getMobileNumber());
                 getCustomerResponseDTO.setName(customer.getName());
                 getCustomerResponseDTO.setNic(customer.getNic());
+                getCustomerResponseDTO.setStatus(customer.getUser().getStatus());
+                getCustomerResponseDTO.setEmail(customer.getUser().getEmail());
 
                 getCustomerResponseDTOS.add(getCustomerResponseDTO);
             }
