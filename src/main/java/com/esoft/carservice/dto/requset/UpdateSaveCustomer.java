@@ -12,7 +12,9 @@ public class UpdateSaveCustomer {
     public long customerId;
     public String name;
     public String address1;
-    public String address2;
+    public String nic;
     public UserStatus status;
     public String mobileNumber;
+    public String customerEmail;
+    public String customerPassword;
 }

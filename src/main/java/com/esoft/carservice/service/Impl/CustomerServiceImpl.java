@@ -6,9 +6,14 @@ import com.esoft.carservice.dto.requset.CustomerFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateSaveCustomer;
 import com.esoft.carservice.dto.responce.GetCustomerResponseDTO;
 import com.esoft.carservice.entity.Customer;
+import com.esoft.carservice.entity.User;
+import com.esoft.carservice.enums.UserRole;
 import com.esoft.carservice.repository.CustomerRepository;
+import com.esoft.carservice.repository.UserRepository;
 import com.esoft.carservice.service.CustomerService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +31,13 @@ import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OC
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, UserRepository userRepository) {
         this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -92,8 +101,30 @@ public class CustomerServiceImpl implements CustomerService {
             }
             Customer customer = optionalCustomer.get();
 
+            Optional<User> optionalUser = userRepository.findById(customer.getUser().getUserId());
+            if (!optionalUser.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the user you are finding cannot be found. ");
+
+            }
+            User user = optionalUser.get();
+
+            List<User> userList = userRepository.checkEmailANDNicUpdate(requestDTO.getCustomerEmail(), requestDTO.getNic(), user.getUserId());
+            if (!userList.isEmpty()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the  user email or nic already Used. ");
+
+            }
+
+            user.setStatus(requestDTO.getStatus());
+            user.setName(requestDTO.getName());
+            user.setNic(requestDTO.getNic());
+            user.setPassword(passwordEncoder.encode(requestDTO.getCustomerPassword()));
+            user.setEmail(requestDTO.getCustomerEmail());
+
+            userRepository.save(user);
+
+
             customer.setAddress1(requestDTO.getAddress1());
-            customer.setAddress2(requestDTO.getAddress2());
+            customer.setNic(requestDTO.getNic());
             customer.setCustomerId(requestDTO.getCustomerId());
             customer.setMobileNumber(requestDTO.getMobileNumber());
             customer.setName(requestDTO.getName());
@@ -111,14 +142,31 @@ public class CustomerServiceImpl implements CustomerService {
     public void saveCustomer(UpdateSaveCustomer requestDTO) {
         log.info("Execute method saveCustomer :  @param : {}", requestDTO);
         try {
-            Customer customer = new Customer();
+            User user = new User();
+            List<User> userList = userRepository.checkEmailANDNic(requestDTO.getCustomerEmail(), requestDTO.getNic());
+            if (!userList.isEmpty()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the  user email or nic already Used. ");
 
+            }
+            user.setUserRole(UserRole.CUSTOMER);
+            user.setEmail(requestDTO.getCustomerEmail());
+            user.setNic(requestDTO.getNic());
+            user.setPassword(passwordEncoder.encode(requestDTO.getCustomerPassword()));
+            user.setName(requestDTO.getName());
+            user.setStatus(requestDTO.getStatus());
+
+
+            Customer customer = new Customer();
             customer.setAddress1(requestDTO.getAddress1());
-            customer.setAddress2(requestDTO.getAddress2());
+            customer.setNic(requestDTO.getNic());
             customer.setMobileNumber(requestDTO.getMobileNumber());
             customer.setName(requestDTO.getName());
 
             customerRepository.save(customer);
+            user.setCustomer(customer);
+
+            userRepository.save(user);
+            log.info("final");
         } catch (Exception e) {
             log.error("Method saveCustomer : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
