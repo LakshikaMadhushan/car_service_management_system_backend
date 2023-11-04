@@ -70,17 +70,18 @@ public class ReportServiceImpl implements ReportService {
                 List<GetServiceDetailsResponseDTO> serviceDetailsResponseDTOS = new ArrayList<>();
                 for (ServiceDetails serviceDetails : serviceDetailsList) {
                     GetServiceDetailsResponseDTO getServiceDetailsResponseDTO = new GetServiceDetailsResponseDTO();
-                    getServiceDetailsResponseDTO.setCost(serviceDetails.getCost());
                     getServiceDetailsResponseDTO.setServiceDetailsId(serviceDetails.getServiceDetailsId());
                     getServiceDetailsResponseDTO.setType(serviceDetails.getType());
                     if (serviceDetails.getType() == ServiceDetailsType.ITEM) {
                         getServiceDetailsResponseDTO.setItemId(serviceDetails.getItem().getItemId());
                         getServiceDetailsResponseDTO.setItemName(serviceDetails.getItem().getItemName());
+                        getServiceDetailsResponseDTO.setCost(serviceDetails.getItem().getSellingPrice());
                         total += serviceDetails.getItem().getSellingPrice();
                         totalItem += serviceDetails.getItem().getSellingPrice();
                     } else if (serviceDetails.getType() == ServiceDetailsType.SERVICE) {
                         getServiceDetailsResponseDTO.setItemId(serviceDetails.getMechanicService().getMechanicServiceId());
                         getServiceDetailsResponseDTO.setItemName(serviceDetails.getMechanicService().getName());
+                        getServiceDetailsResponseDTO.setCost(serviceDetails.getMechanicService().getPrice());
                         total += serviceDetails.getMechanicService().getPrice();
                         totalService += serviceDetails.getMechanicService().getPrice();
                     }

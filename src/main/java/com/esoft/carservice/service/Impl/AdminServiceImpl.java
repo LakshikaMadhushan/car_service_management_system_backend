@@ -191,12 +191,15 @@ public class AdminServiceImpl implements AdminService {
                 GetAdminResponseDTO getAdminResponseDTO = new GetAdminResponseDTO();
                 getAdminResponseDTO.setAddress1(admin.getAddress1());
                 getAdminResponseDTO.setAdminId(admin.getAdminId());
-                getAdminResponseDTO.setUserId(admin.getUser().getUserId());
+                if (admin.getUser() != null) {
+                    getAdminResponseDTO.setUserId(admin.getUser().getUserId());
+                    getAdminResponseDTO.setEmail(admin.getUser().getEmail());
+                    getAdminResponseDTO.setStatus(admin.getUser().getStatus());
+                }
                 getAdminResponseDTO.setMobileNumber(admin.getMobileNumber());
-                getAdminResponseDTO.setEmail(admin.getUser().getEmail());
                 getAdminResponseDTO.setName(admin.getName());
                 getAdminResponseDTO.setQualification(admin.getQualification());
-                getAdminResponseDTO.setStatus(admin.getUser().getStatus());
+
                 getAdminResponseDTO.setNic(admin.getNic());
                 getAdminResponseDTOList.add(getAdminResponseDTO);
             }
