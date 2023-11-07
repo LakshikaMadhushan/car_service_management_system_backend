@@ -1,5 +1,6 @@
 package com.esoft.carservice.dto.requset;
 
+import com.esoft.carservice.entity.ItemCategory;
 import com.esoft.carservice.enums.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,4 +13,5 @@ public class ItemFilterRequestDTO {
     public long categoryId;
     public String name;
     public ItemStatus status;
+    public ItemCategory type;
 }

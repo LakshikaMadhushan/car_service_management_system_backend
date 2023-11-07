@@ -50,6 +50,7 @@ public class ItemServiceImpl implements ItemService {
                 getItemResponseDTO.setQuantity(item.getQuantity());
                 getItemResponseDTO.setSellingPrice(item.getSellingPrice());
                 getItemResponseDTO.setItemStatus(item.getItemStatus());
+                getItemResponseDTO.setSellerName(item.getSellerName());
                 Optional<ItemCategory> optionalItemCategory = itemCategoryRepository.findById(item.getItemId());
                 if (optionalItemCategory.isPresent()) {
                     getItemResponseDTO.setCategoryId(optionalItemCategory.get().getItemCategoryId());
