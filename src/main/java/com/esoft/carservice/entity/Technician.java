@@ -18,6 +18,7 @@ public class Technician {
     public long technicianId;
     public String name;
     public String address1;
+    @Enumerated(EnumType.STRING)
     public UserStatus status;
     public String mobileNumber;
     public String email;
