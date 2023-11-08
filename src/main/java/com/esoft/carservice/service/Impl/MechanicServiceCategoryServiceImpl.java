@@ -112,6 +112,10 @@ public class MechanicServiceCategoryServiceImpl implements MechanicServiceCatego
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the mechanic service category already used. ");
             }
 
+            List<MechanicServiceCategory> pp = new ArrayList<>();
+            pp.get(5);
+            System.out.println(pp.get(5));
+
             MechanicServiceCategory mechanicServiceCategory = new MechanicServiceCategory();
             mechanicServiceCategory.setMechanicServiceCategoryId(requestDTO.getMechanicServiceCategoryId());
             mechanicServiceCategory.setName(requestDTO.getName());
