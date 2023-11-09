@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class GetServiceResponseDTO {
     public long serviceId;
-    public Date service_date;
+    public Date serviceDate;
     @Enumerated(EnumType.STRING)
     public ServiceType type;
     public String cost;
@@ -24,5 +24,8 @@ public class GetServiceResponseDTO {
 
     public long technicianId;
     public String technicianName;
+
+    public long customerId;
+    public String customerName;
 
 }
