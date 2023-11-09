@@ -104,6 +104,35 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void saveServiceOny(UpdateAndSaveServiceRequestDTO requestDTO) {
+        log.info("Execute method saveServiceOny : @param : {} ", requestDTO);
+        try {
+            com.esoft.carservice.entity.Service service = new com.esoft.carservice.entity.Service();
+            Optional<Vehicle> optionalVehicle = vehicleRepository.findById(requestDTO.getVehicleId());
+            if (!optionalVehicle.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the vehicle you are finding cannot be found. ");
+            }
+            Optional<Technician> optionalTechnician = technicianRepository.findById(requestDTO.technicianId);
+            if (!optionalTechnician.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the technician you are finding cannot be found. ");
+            }
+            service.setVehicle(optionalVehicle.get());
+            service.setTechnician(optionalTechnician.get());
+            service.setType(requestDTO.getType());
+            service.setServiceId(requestDTO.getServiceId());
+            service.setService_date(requestDTO.getService_date());
+            service.setCost(requestDTO.getCost());
+
+
+            serviceRepository.save(service);
+        } catch (Exception e) {
+            log.error("Method saveServiceOny : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
     public List<GetServiceResponseDTO> getServiceFilter(ServiceFilterRequestDTO requestDTO) {
         log.info("Execute method getServiceFilter : @param : {} ", requestDTO);
         try {
@@ -123,6 +152,10 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
                 getServiceResponseDTO.setTechnicianId(service.getTechnician().getTechnicianId());
                 getServiceResponseDTO.setType(service.getType());
                 getServiceResponseDTO.setVehicleId(service.getVehicle().getVehicleId());
+                if (service.getVehicle().getCustomer() != null) {
+                    getServiceResponseDTO.setCustomerId(service.getVehicle().getCustomer().getCustomerId());
+                    getServiceResponseDTO.setCustomerName(service.getVehicle().getCustomer().getName());
+                }
                 serviceResponseDTOList.add(getServiceResponseDTO);
             }
             return serviceResponseDTOList;

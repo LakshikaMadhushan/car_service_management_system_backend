@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ public class SaveServiceRequestDTO {
     public long serviceId;
     public long vehicleId;
     public long technicianId;
+    @Temporal(TemporalType.DATE)
     public Date service_date;
     @Enumerated(EnumType.STRING)
     public ServiceType type;

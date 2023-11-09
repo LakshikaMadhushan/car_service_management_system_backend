@@ -33,6 +33,13 @@ public class ServiceController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> saveService(@RequestBody UpdateAndSaveServiceRequestDTO dto) {
+        vehicalServiceService.saveServiceOny(dto);
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
     @PutMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> updateService(@RequestBody UpdateAndSaveServiceRequestDTO dto) {
         vehicalServiceService.updateService(dto);
@@ -48,7 +55,7 @@ public class ServiceController {
     }
 
 
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/details", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> serviceSaveWithDetails(@RequestBody ServiceFilterRequestDTO dto) {
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicalServiceService.getServiceFilter(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);

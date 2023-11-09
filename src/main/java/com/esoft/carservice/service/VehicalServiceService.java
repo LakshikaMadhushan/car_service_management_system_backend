@@ -13,6 +13,8 @@ public interface VehicalServiceService {
 
     public void updateService(UpdateAndSaveServiceRequestDTO requestDTO);
 
+    public void saveServiceOny(UpdateAndSaveServiceRequestDTO requestDTO);
+
     public List<GetServiceResponseDTO> getServiceFilter(ServiceFilterRequestDTO requestDTO);
 
     public void saveService(SaveServiceRequestDTO requestDTO);
