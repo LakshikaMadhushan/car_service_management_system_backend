@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -16,8 +18,10 @@ public class ServiceFilterRequestDTO {
     public long serviceId;
     public long vehicleId;
     public long technicianId;
-    public Date startService_date;
-    public Date endService_date;
+    @Temporal(TemporalType.DATE)
+    public Date start;
+    @Temporal(TemporalType.DATE)
+    public Date end;
     @Enumerated(EnumType.STRING)
     public ServiceType type;
 }

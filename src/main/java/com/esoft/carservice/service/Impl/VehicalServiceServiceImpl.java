@@ -56,7 +56,7 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             getServiceResponseDTO.setCost(service.getCost());
             getServiceResponseDTO.setTechnicianName(service.getTechnician().getName());
             getServiceResponseDTO.setNumberPlate(service.getVehicle().getNumberPlate());
-            getServiceResponseDTO.setService_date(service.getService_date());
+            getServiceResponseDTO.setServiceDate(service.getService_date());
             getServiceResponseDTO.setServiceId(service.getServiceId());
             getServiceResponseDTO.setTechnicianId(service.getTechnician().getTechnicianId());
             getServiceResponseDTO.setType(service.getType());
@@ -107,14 +107,19 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
     public List<GetServiceResponseDTO> getServiceFilter(ServiceFilterRequestDTO requestDTO) {
         log.info("Execute method getServiceFilter : @param : {} ", requestDTO);
         try {
-            List<com.esoft.carservice.entity.Service> serviceList = serviceRepository.getAllServiceFilter(requestDTO.getServiceId(), requestDTO.getVehicleId(), requestDTO.getType(), requestDTO.getStartService_date(), requestDTO.getEndService_date());
+            String type = null;
+            if (requestDTO.getType() != null) {
+                type = requestDTO.getType().toString();
+            }
+            List<com.esoft.carservice.entity.Service> serviceList = serviceRepository.getAllServiceFilter(requestDTO.getServiceId(), requestDTO.getVehicleId(), requestDTO.getTechnicianId(), type, requestDTO.getStart(), requestDTO.getEnd());
             List<GetServiceResponseDTO> serviceResponseDTOList = new ArrayList<>();
             for (com.esoft.carservice.entity.Service service : serviceList) {
                 GetServiceResponseDTO getServiceResponseDTO = new GetServiceResponseDTO();
+                getServiceResponseDTO.setServiceId(service.getServiceId());
                 getServiceResponseDTO.setCost(service.getCost());
                 getServiceResponseDTO.setTechnicianName(service.getTechnician().getName());
                 getServiceResponseDTO.setNumberPlate(service.getVehicle().getNumberPlate());
-                getServiceResponseDTO.setService_date(service.getService_date());
+                getServiceResponseDTO.setServiceDate(service.getService_date());
                 getServiceResponseDTO.setTechnicianId(service.getTechnician().getTechnicianId());
                 getServiceResponseDTO.setType(service.getType());
                 getServiceResponseDTO.setVehicleId(service.getVehicle().getVehicleId());
