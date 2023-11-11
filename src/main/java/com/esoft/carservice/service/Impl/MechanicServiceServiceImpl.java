@@ -104,7 +104,7 @@ public class MechanicServiceServiceImpl implements MechanicServiceService {
             mechanicService.setName(requestDTO.getName());
             mechanicService.setPrice(requestDTO.getPrice());
             mechanicService.setVehicleType(requestDTO.getVehicleType());
-            Optional<MechanicServiceCategory> optionalMechanicServiceCategory = mechanicServiceCategoryRepository.findById(requestDTO.getMechanicServiceId());
+            Optional<MechanicServiceCategory> optionalMechanicServiceCategory = mechanicServiceCategoryRepository.findById(requestDTO.getMechanicServiceCategoryId());
             if (optionalMechanicServiceCategory.isPresent()) {
                 MechanicServiceCategory mechanicServiceCategory = optionalMechanicServiceCategory.get();
                 mechanicService.setMechanicServiceCategory(mechanicServiceCategory);
@@ -130,16 +130,21 @@ public class MechanicServiceServiceImpl implements MechanicServiceService {
             if (!mechanicServiceByName.isEmpty()) {
                 throw new ServiceException(DUPLICATE_INPUT, "Sorry, the mechanic service name already used. ");
             }
-            mechanicService.setName(mechanicService.getName());
-            mechanicService.setPrice(mechanicService.getPrice());
-            mechanicService.setVehicleType(mechanicService.getVehicleType());
-            Optional<MechanicServiceCategory> optionalMechanicServiceCategory = mechanicServiceCategoryRepository.findById(requestDTO.getMechanicServiceId());
+
+            mechanicService.setName(requestDTO.getName());
+            mechanicService.setPrice(requestDTO.getPrice());
+            mechanicService.setVehicleType(requestDTO.getVehicleType());
+
+
+            Optional<MechanicServiceCategory> optionalMechanicServiceCategory = mechanicServiceCategoryRepository.findById(requestDTO.getMechanicServiceCategoryId());
             if (optionalMechanicServiceCategory.isPresent()) {
                 MechanicServiceCategory mechanicServiceCategory = optionalMechanicServiceCategory.get();
                 mechanicService.setMechanicServiceCategory(mechanicServiceCategory);
+
             } else {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the mechanic service category you are finding cannot be found. ");
             }
+
             mechanicServiceRepository.save(mechanicService);
         } catch (Exception e) {
             log.error("Method saveMechanicService : " + e.getMessage(), e);

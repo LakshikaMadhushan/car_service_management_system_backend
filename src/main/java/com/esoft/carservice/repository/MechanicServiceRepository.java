@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MechanicServiceRepository extends JpaRepository<MechanicService, Long> {
-    @Query(value = "SELECT * FROM mechanic_service m WHERE m.name=?1 AND i.mechanic_service_id!=?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM mechanic_service m WHERE m.name=?1 AND m.mechanic_service_id!=?2", nativeQuery = true)
     List<MechanicService> findMechanicServiceNameUpdate(String name, long id);
 
     @Query(value = "SELECT * FROM mechanic_service m WHERE m.name=?1", nativeQuery = true)
