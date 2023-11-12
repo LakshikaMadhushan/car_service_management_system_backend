@@ -176,14 +176,28 @@ public class VehicleServiceImpl implements VehicleService {
     public List<GetVehicleResponseDTO> getVehicleFilter(VehicleFilterRequestDTO requestDTO) {
         log.info("Execute method getService :  @param : {}", requestDTO);
         try {
-            List<Vehicle> vehicles = vehicleRepository.getAllVehicleFilter(requestDTO.getNumberPlate(), requestDTO.getVehicleId(), requestDTO.getVehicleType(), requestDTO.getCategory(), requestDTO.getStatus(), requestDTO.getCustomerId());
+            String status = null;
+            if (requestDTO.getStatus() != null) {
+                status = requestDTO.getStatus().toString();
+            }
+            String vehicleType = null;
+            if (requestDTO.getVehicleType() != null) {
+                vehicleType = requestDTO.getVehicleType().toString();
+            }
+
+            List<Vehicle> vehicles = vehicleRepository.getAllVehicleFilter(requestDTO.getNumberPlate(), requestDTO.getVehicleId(), requestDTO.getCategory(), vehicleType, status, requestDTO.getCustomerId());
+
 
             List<GetVehicleResponseDTO> getVehicleResponseDTOs = new ArrayList<>();
             for (Vehicle vehicle : vehicles) {
                 GetVehicleResponseDTO getVehicleResponseDTO = new GetVehicleResponseDTO();
+                getVehicleResponseDTO.setVehicleId(vehicle.getVehicleId());
                 getVehicleResponseDTO.setCategory(vehicle.getCategory());
                 getVehicleResponseDTO.setColour(vehicle.getColour());
                 getVehicleResponseDTO.setCustomerId(vehicle.getCustomer().getCustomerId());
+                log.info(vehicle.getCustomer().getName());
+                getVehicleResponseDTO.setCustomerName(vehicle.getCustomer().getName());
+                log.info(getVehicleResponseDTO.getCustomerName());
                 getVehicleResponseDTO.setEngineCapacity(vehicle.getEngineCapacity());
                 getVehicleResponseDTO.setMileage(vehicle.getMileage());
                 getVehicleResponseDTO.setNextMileage(vehicle.getNextMileage());

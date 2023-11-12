@@ -100,6 +100,9 @@ public class MechanicServiceServiceImpl implements MechanicServiceService {
             if (!mechanicServiceByName.isEmpty()) {
                 throw new ServiceException(DUPLICATE_INPUT, "Sorry, the mechanic service name already used. ");
             }
+            if (requestDTO.getName() == null || requestDTO.getPrice() == 0) {
+                throw new ServiceException(INVALID_INPUT, "Sorry, the price and name cannot be empty. ");
+            }
             MechanicService mechanicService = optionalMechanicService.get();
             mechanicService.setName(requestDTO.getName());
             mechanicService.setPrice(requestDTO.getPrice());
@@ -160,6 +163,7 @@ public class MechanicServiceServiceImpl implements MechanicServiceService {
             if (requestDTO.getVehicleType() != null) {
                 vehicleType = requestDTO.getVehicleType().toString();
             }
+
             List<MechanicService> mechanicServiceFilter = mechanicServiceRepository.getAllMechanicServiceFilter(requestDTO.getName(), requestDTO.getMechanicServiceId(), vehicleType);
             List<GetMechanicServiceResponseDTO> mechanicServiceResponseDTOList = new ArrayList<>();
             for (MechanicService mechanicService : mechanicServiceFilter) {

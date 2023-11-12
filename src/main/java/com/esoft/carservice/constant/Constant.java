@@ -10,7 +10,7 @@ public class Constant {
     public static final String SCOPE_READ = "read";
     public static final String SCOPE_WRITE = "write";
     public static final String TRUST = "trust";
-    public static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
+    public static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60 * 60;
     public static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
     public static final String GRANT_TYPE_PASSWORD = "password";
     public static final String SIGNING_KEY = "as466gf";
