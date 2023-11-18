@@ -45,7 +45,9 @@ public class ReportServiceImpl implements ReportService {
             if (requestDTO.getType() != null) {
                 serviceType = requestDTO.getType().name();
             }
-            List<com.esoft.carservice.entity.Service> adminReportFilter = serviceRepository.getAdminReportFilter(requestDTO.getTechnicianId(), requestDTO.getVehicleId(), serviceType, requestDTO.getStart(), requestDTO.getEnd(), requestDTO.getCustomerId());
+            List<com.esoft.carservice.entity.Service> adminReportFilter = serviceRepository.getAdminReportFilter
+                    (requestDTO.getTechnicianId(), requestDTO.getVehicleId(), serviceType, requestDTO.getStart(),
+                            requestDTO.getEnd(), requestDTO.getCustomerId());
 
             for (com.esoft.carservice.entity.Service service : adminReportFilter) {
                 AdminReportResponseDTO adminReportResponseDTO = new AdminReportResponseDTO();
