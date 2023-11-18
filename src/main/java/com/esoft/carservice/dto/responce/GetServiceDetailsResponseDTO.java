@@ -19,5 +19,7 @@ public class GetServiceDetailsResponseDTO {
 
     public long itemId;
     public String itemName;
+    public long categoryId;
+    public String categoryName;
 
 }

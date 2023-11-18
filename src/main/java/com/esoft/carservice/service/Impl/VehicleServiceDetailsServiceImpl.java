@@ -130,9 +130,18 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 if (serviceDetails.getType() == ServiceDetailsType.SERVICE) {
                     getServiceDetailsResponseDTO.setItemId(serviceDetails.getMechanicService().getMechanicServiceId());
                     getServiceDetailsResponseDTO.setItemName(serviceDetails.getMechanicService().getName());
+                    if (serviceDetails.getMechanicService().getMechanicServiceCategory() != null) {
+                        getServiceDetailsResponseDTO.setCategoryId(serviceDetails.getMechanicService().getMechanicServiceCategory().getMechanicServiceCategoryId());
+                        getServiceDetailsResponseDTO.setCategoryName(serviceDetails.getMechanicService().getMechanicServiceCategory().getName());
+                    }
                 } else if (serviceDetails.getType() == ServiceDetailsType.ITEM) {
                     getServiceDetailsResponseDTO.setItemId(serviceDetails.getItem().getItemId());
                     getServiceDetailsResponseDTO.setItemName(serviceDetails.getItem().getItemName());
+
+                    if (serviceDetails.getItem().getItemCategory() != null) {
+                        getServiceDetailsResponseDTO.setCategoryId(serviceDetails.getItem().getItemCategory().getItemCategoryId());
+                        getServiceDetailsResponseDTO.setCategoryName(serviceDetails.getItem().getItemCategory().getName());
+                    }
                 }
                 responseDTOList.add(getServiceDetailsResponseDTO);
             }
@@ -164,7 +173,7 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 serviceDetails.setCost(item.getSellingPrice());
                 serviceDetails.setItem(item);
             } else if (requestDTO.getType() == ServiceDetailsType.SERVICE) {
-                Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(requestDTO.getMechanicServiceId());
+                Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(requestDTO.getItemId());
                 if (!optionalMechanicService.isPresent()) {
                     throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the mechanic service you are finding cannot be found. ");
                 }
