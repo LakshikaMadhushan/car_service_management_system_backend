@@ -2,6 +2,7 @@ package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
 import com.esoft.carservice.dto.requset.AdminReportFilterRequestDTO;
+import com.esoft.carservice.dto.requset.CustomerDashboardFilterRequestDTO;
 import com.esoft.carservice.service.ReportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,4 +31,18 @@ public class ReportController {
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, reportService.getAllAdminReport(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/admin/dashboard", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> adminDashboard() {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, reportService.getAllAdminDashboard(),
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/customer/dashboard", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse> customerDashboard(@RequestBody CustomerDashboardFilterRequestDTO dto) {
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, reportService.getAllCustomerDashboard(dto),
+                SUCCESS_RESPONSE), HttpStatus.OK);
+    }
+
+
 }

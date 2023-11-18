@@ -2,9 +2,8 @@ package com.esoft.carservice.service.Impl;
 
 import com.esoft.carservice.configuration.exception.CustomException;
 import com.esoft.carservice.dto.requset.AdminReportFilterRequestDTO;
-import com.esoft.carservice.dto.responce.AdminAllReportResponseDTO;
-import com.esoft.carservice.dto.responce.AdminReportResponseDTO;
-import com.esoft.carservice.dto.responce.GetServiceDetailsResponseDTO;
+import com.esoft.carservice.dto.requset.CustomerDashboardFilterRequestDTO;
+import com.esoft.carservice.dto.responce.*;
 import com.esoft.carservice.entity.ServiceDetails;
 import com.esoft.carservice.enums.ServiceDetailsType;
 import com.esoft.carservice.repository.ServiceRepository;
@@ -107,4 +106,29 @@ public class ReportServiceImpl implements ReportService {
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
         }
     }
+
+    @Override
+    public AdminAllDashboardResponseDTO getAllAdminDashboard() {
+        try {
+            log.info("Execute method getAllAdminDashboard: @param : {}");
+            AdminAllDashboardResponseDTO responseDTO = new AdminAllDashboardResponseDTO();
+            return responseDTO;
+        } catch (Exception e) {
+            log.error("Method getAllAdminDashboard : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
+    @Override
+    public CustomerAllDashboardResponseDTO getAllCustomerDashboard(CustomerDashboardFilterRequestDTO re) {
+        try {
+            log.info("Execute method getAllAdminCustomerDashboard: @param : {}");
+            CustomerAllDashboardResponseDTO responseDTO = new CustomerAllDashboardResponseDTO();
+            return responseDTO;
+        } catch (Exception e) {
+            log.error("Method getAllAdminCustomerDashboard : " + e.getMessage(), e);
+            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+        }
+    }
+
 }
