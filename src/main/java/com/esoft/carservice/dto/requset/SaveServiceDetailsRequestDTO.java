@@ -18,4 +18,8 @@ public class SaveServiceDetailsRequestDTO {
     public long serviceId;
     public long itemId;
     public long mechanicServiceId;
+
+    public long vehicleServiceId;
+
+
 }
