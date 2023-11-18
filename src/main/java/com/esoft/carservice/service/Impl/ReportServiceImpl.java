@@ -6,7 +6,7 @@ import com.esoft.carservice.dto.requset.CustomerDashboardFilterRequestDTO;
 import com.esoft.carservice.dto.responce.*;
 import com.esoft.carservice.entity.ServiceDetails;
 import com.esoft.carservice.enums.ServiceDetailsType;
-import com.esoft.carservice.repository.ServiceRepository;
+import com.esoft.carservice.repository.*;
 import com.esoft.carservice.service.ReportService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,21 @@ import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OC
 public class ReportServiceImpl implements ReportService {
 
     private final ServiceRepository serviceRepository;
+    private final VehicleRepository vehicleRepository;
+    private final CustomerRepository customerRepository;
+    private final AdminRepository adminRepository;
+    private final MechanicServiceRepository mechanicServiceRepository;
+    private final ItemRepository itemRepository;
+    private final TechnicianRepository technicianRepository;
 
-    public ReportServiceImpl(ServiceRepository serviceRepository) {
+    public ReportServiceImpl(ServiceRepository serviceRepository, VehicleRepository vehicleRepository, CustomerRepository customerRepository, AdminRepository adminRepository, MechanicServiceRepository mechanicServiceRepository, ItemRepository itemRepository, TechnicianRepository technicianRepository) {
         this.serviceRepository = serviceRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.customerRepository = customerRepository;
+        this.adminRepository = adminRepository;
+        this.mechanicServiceRepository = mechanicServiceRepository;
+        this.itemRepository = itemRepository;
+        this.technicianRepository = technicianRepository;
     }
 
     @Override
@@ -112,6 +124,15 @@ public class ReportServiceImpl implements ReportService {
         try {
             log.info("Execute method getAllAdminDashboard: @param : {}");
             AdminAllDashboardResponseDTO responseDTO = new AdminAllDashboardResponseDTO();
+
+            responseDTO.setTotalAdmin(adminRepository.findAll().size());
+            responseDTO.setTotalCustomer(customerRepository.findAll().size());
+            responseDTO.setTotalItems(itemRepository.findAll().size());
+            responseDTO.setTotalMechanicServices(mechanicServiceRepository.findAll().size());
+            responseDTO.setTotalServices(serviceRepository.findAll().size());
+            responseDTO.setTotalTechnician(technicianRepository.findAll().size());
+            responseDTO.setTotalVehicle(vehicleRepository.findAll().size());
+
             return responseDTO;
         } catch (Exception e) {
             log.error("Method getAllAdminDashboard : " + e.getMessage(), e);
