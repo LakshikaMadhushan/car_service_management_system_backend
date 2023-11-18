@@ -120,7 +120,12 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
         try {
             List<GetServiceDetailsResponseDTO> responseDTOList = new ArrayList<>();
 
-            List<ServiceDetails> allServiceDetailFilter = serviceDetailsRepository.getAllServiceDetailFilter(requestDTO.getServiceDetailId(), requestDTO.getServiceId(), requestDTO.getItemId(), requestDTO.getMechanicServiceId(), requestDTO.getType());
+            String type = null;
+            if (requestDTO.getType() != null) {
+                type = requestDTO.getType().toString();
+            }
+
+            List<ServiceDetails> allServiceDetailFilter = serviceDetailsRepository.getAllServiceDetailFilter(requestDTO.getServiceDetailId(), requestDTO.getServiceId(), requestDTO.getItemId(), requestDTO.getMechanicServiceId(), type);
             for (ServiceDetails serviceDetails : allServiceDetailFilter) {
                 GetServiceDetailsResponseDTO getServiceDetailsResponseDTO = new GetServiceDetailsResponseDTO();
 

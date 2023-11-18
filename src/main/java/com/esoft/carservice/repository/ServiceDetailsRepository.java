@@ -1,7 +1,6 @@
 package com.esoft.carservice.repository;
 
 import com.esoft.carservice.entity.ServiceDetails;
-import com.esoft.carservice.enums.ServiceDetailsType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,7 +12,7 @@ public interface ServiceDetailsRepository extends JpaRepository<ServiceDetails, 
             "            (?3 = 0 OR ds.item_item_id=?3) AND\n" +
             "            (?4 = 0 OR ds.mechanic_service_mechanic_service_id=?4) AND\n" +
             "            (?5 IS NULL OR ds.type=?5)  ORDER BY ds.service_details_id DESC", nativeQuery = true)
-    List<ServiceDetails> getAllServiceDetailFilter(long serviceDetailsId, long serviceId, long itemId, long mechanicServiceId, ServiceDetailsType type);
+    List<ServiceDetails> getAllServiceDetailFilter(long serviceDetailsId, long serviceId, long itemId, long mechanicServiceId, String type);
 
 //    @Query(value = "SELECT * FROM service s WHERE (?1 = 0 OR s.technician_technician_id=?1) AND\n" +
 //            "        (?2 = 0 OR s.vehicle_vehicle_id=?2) AND\n" +
