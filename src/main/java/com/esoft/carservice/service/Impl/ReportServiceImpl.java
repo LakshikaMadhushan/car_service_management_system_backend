@@ -157,8 +157,12 @@ public class ReportServiceImpl implements ReportService {
             }
             Long allServiceItemCost = serviceDetailsRepository.getAllServiceItemCost(requestDTO.getUserId());
             Long allServiceCost = serviceDetailsRepository.getAllServiceCost(requestDTO.getUserId());
-            responseDTO.setPartCost(allServiceItemCost);
-            responseDTO.setServiceCost(allServiceCost);
+            if (allServiceItemCost != null) {
+                responseDTO.setPartCost(allServiceItemCost);
+            }
+            if (allServiceCost != null) {
+                responseDTO.setServiceCost(allServiceCost);
+            }
             List<com.esoft.carservice.entity.Service> serviceList = serviceRepository.serviceCount(requestDTO.getUserId());
             responseDTO.setServiceCount(serviceList.size());
             List<Vehicle> vehicles = vehicleRepository.vehicleCount(requestDTO.getUserId());
