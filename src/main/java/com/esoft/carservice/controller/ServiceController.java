@@ -1,6 +1,7 @@
 package com.esoft.carservice.controller;
 
 import com.esoft.carservice.dto.common.CommonResponse;
+import com.esoft.carservice.dto.requset.SaveServiceRequestDTO;
 import com.esoft.carservice.dto.requset.ServiceFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateAndSaveServiceRequestDTO;
 import com.esoft.carservice.service.VehicalServiceService;
@@ -56,8 +57,10 @@ public class ServiceController {
 
 
     @PostMapping(value = "/details", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse> serviceSaveWithDetails(@RequestBody ServiceFilterRequestDTO dto) {
-        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, vehicalServiceService.getServiceFilter(dto),
+    public ResponseEntity<CommonResponse> serviceSaveWithDetails(@RequestBody SaveServiceRequestDTO dto) {
+
+        vehicalServiceService.saveService(dto);
+        return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS,
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 }

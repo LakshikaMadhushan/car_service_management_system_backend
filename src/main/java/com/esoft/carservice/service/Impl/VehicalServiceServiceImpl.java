@@ -7,12 +7,9 @@ import com.esoft.carservice.dto.requset.SaveServiceRequestDTO;
 import com.esoft.carservice.dto.requset.ServiceFilterRequestDTO;
 import com.esoft.carservice.dto.requset.UpdateAndSaveServiceRequestDTO;
 import com.esoft.carservice.dto.responce.GetServiceResponseDTO;
-import com.esoft.carservice.entity.ServiceDetails;
-import com.esoft.carservice.entity.Technician;
-import com.esoft.carservice.entity.Vehicle;
-import com.esoft.carservice.repository.ServiceRepository;
-import com.esoft.carservice.repository.TechnicianRepository;
-import com.esoft.carservice.repository.VehicleRepository;
+import com.esoft.carservice.entity.*;
+import com.esoft.carservice.enums.ServiceDetailsType;
+import com.esoft.carservice.repository.*;
 import com.esoft.carservice.service.VehicalServiceService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -20,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,13 +30,19 @@ import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OC
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class VehicalServiceServiceImpl implements VehicalServiceService {
     private final ServiceRepository serviceRepository;
+    private final ServiceDetailsRepository serviceDetailsRepository;
+    private final ItemRepository itemRepository;
     private final TechnicianRepository technicianRepository;
     private final VehicleRepository vehicleRepository;
+    private final MechanicServiceRepository mechanicServiceRepository;
 
-    public VehicalServiceServiceImpl(ServiceRepository serviceRepository, TechnicianRepository technicianRepository, VehicleRepository vehicleRepository) {
+    public VehicalServiceServiceImpl(ServiceRepository serviceRepository, ServiceDetailsRepository serviceDetailsRepository, ItemRepository itemRepository, TechnicianRepository technicianRepository, VehicleRepository vehicleRepository, MechanicServiceRepository mechanicServiceRepository) {
         this.serviceRepository = serviceRepository;
+        this.serviceDetailsRepository = serviceDetailsRepository;
+        this.itemRepository = itemRepository;
         this.technicianRepository = technicianRepository;
         this.vehicleRepository = vehicleRepository;
+        this.mechanicServiceRepository = mechanicServiceRepository;
     }
 
     @Override
@@ -183,18 +187,44 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             service.setVehicle(optionalVehicle.get());
             service.setTechnician(optionalTechnician.get());
             service.setType(requestDTO.getType());
-            service.setService_date(requestDTO.getService_date());
+            service.setService_date(new Date());
             service.setCost(requestDTO.getCost());
+            serviceRepository.save(service);
 
             List<ServiceDetails> serviceDetailsList = new ArrayList<>();
             for (SaveServiceDetailsRequestDTO saveServiceDetailsRequestDTO : requestDTO.getSaveServiceDetails()) {
-                ServiceDetails serviceDetails = new ServiceDetails();
 
+                ServiceDetails serviceDetails = new ServiceDetails();
+                serviceDetails.setType(saveServiceDetailsRequestDTO.getType());
+                serviceDetails.setCost(saveServiceDetailsRequestDTO.getCost());
+
+                serviceDetails.setService(service);
+
+                if (saveServiceDetailsRequestDTO.getType() == ServiceDetailsType.ITEM) {
+                    Optional<Item> optionalItem = itemRepository.findById(saveServiceDetailsRequestDTO.getItemId());
+                    if (!optionalItem.isPresent()) {
+
+                    }
+
+                    Item item = optionalItem.get();
+                    serviceDetails.setItem(item);
+
+                } else {
+                    Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(saveServiceDetailsRequestDTO.getItemId());
+
+                    if (!optionalMechanicService.isPresent()) {
+
+                    }
+                    MechanicService mechanicService = optionalMechanicService.get();
+                    serviceDetails.setMechanicService(mechanicService);
+
+                }
                 serviceDetailsList.add(serviceDetails);
             }
 
-            service.setServiceDetailsList(serviceDetailsList);
-            serviceRepository.save(service);
+//            service.setServiceDetailsList(serviceDetailsList);
+            serviceDetailsRepository.saveAll(serviceDetailsList);
+
         } catch (Exception e) {
             log.error("Method updateService : " + e.getMessage(), e);
             throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
