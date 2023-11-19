@@ -82,7 +82,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //Manage report
                 .antMatchers(HttpMethod.POST, "/v1/report/filter").permitAll()
                 .antMatchers(HttpMethod.GET, "/v1/report/admin/dashboard").permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/report/customer/dashboard").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/report/customer/dashboard").permitAll()
                 //Manage vehicle service details
                 .antMatchers(HttpMethod.GET, "/v1/service-details/{serviceDetailId}").permitAll()
                 .antMatchers(HttpMethod.PUT, "/v1/service-details").permitAll()

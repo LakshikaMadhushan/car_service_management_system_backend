@@ -16,4 +16,5 @@ public class CustomerDashboardFilterRequestDTO {
     public Date start;
     @Temporal(TemporalType.DATE)
     public Date end;
+    public long userId;
 }

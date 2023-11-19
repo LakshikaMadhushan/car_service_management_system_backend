@@ -20,4 +20,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
             "                          AND (?5 IS NULL OR v.status=?5)\n" +
             "                          AND (?6 = 0 OR v.customer_customer_id=?6) ORDER BY v.vehicle_id DESC", nativeQuery = true)
     List<Vehicle> getAllVehicleFilter(String name, long vehicleId, String vehicleType, String category, String status, long customerId);
+
+    @Query(value = "SELECT * FROM vehicle v WHERE v.customer_customer_id=?1", nativeQuery = true)
+    List<Vehicle> vehicleCount(long id);
 }

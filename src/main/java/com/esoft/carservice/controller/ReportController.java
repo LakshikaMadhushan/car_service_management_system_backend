@@ -38,7 +38,7 @@ public class ReportController {
                 SUCCESS_RESPONSE), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/customer/dashboard", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/customer/dashboard", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse> customerDashboard(@RequestBody CustomerDashboardFilterRequestDTO dto) {
         return new ResponseEntity<>(new CommonResponse(OPERATION_SUCCESS, reportService.getAllCustomerDashboard(dto),
                 SUCCESS_RESPONSE), HttpStatus.OK);

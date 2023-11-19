@@ -5,6 +5,7 @@ import com.esoft.carservice.dto.requset.AdminReportFilterRequestDTO;
 import com.esoft.carservice.dto.requset.CustomerDashboardFilterRequestDTO;
 import com.esoft.carservice.dto.responce.*;
 import com.esoft.carservice.entity.ServiceDetails;
+import com.esoft.carservice.entity.Vehicle;
 import com.esoft.carservice.enums.ServiceDetailsType;
 import com.esoft.carservice.repository.*;
 import com.esoft.carservice.service.ReportService;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.esoft.carservice.constant.ResponseCodes.OPERATION_FAILED;
 import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OCCURRED;
@@ -31,8 +33,9 @@ public class ReportServiceImpl implements ReportService {
     private final MechanicServiceRepository mechanicServiceRepository;
     private final ItemRepository itemRepository;
     private final TechnicianRepository technicianRepository;
+    private final ServiceDetailsRepository serviceDetailsRepository;
 
-    public ReportServiceImpl(ServiceRepository serviceRepository, VehicleRepository vehicleRepository, CustomerRepository customerRepository, AdminRepository adminRepository, MechanicServiceRepository mechanicServiceRepository, ItemRepository itemRepository, TechnicianRepository technicianRepository) {
+    public ReportServiceImpl(ServiceRepository serviceRepository, VehicleRepository vehicleRepository, CustomerRepository customerRepository, AdminRepository adminRepository, MechanicServiceRepository mechanicServiceRepository, ItemRepository itemRepository, TechnicianRepository technicianRepository, ServiceDetailsRepository serviceDetailsRepository) {
         this.serviceRepository = serviceRepository;
         this.vehicleRepository = vehicleRepository;
         this.customerRepository = customerRepository;
@@ -40,6 +43,7 @@ public class ReportServiceImpl implements ReportService {
         this.mechanicServiceRepository = mechanicServiceRepository;
         this.itemRepository = itemRepository;
         this.technicianRepository = technicianRepository;
+        this.serviceDetailsRepository = serviceDetailsRepository;
     }
 
     @Override
@@ -141,10 +145,26 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public CustomerAllDashboardResponseDTO getAllCustomerDashboard(CustomerDashboardFilterRequestDTO re) {
+    public CustomerAllDashboardResponseDTO getAllCustomerDashboard(CustomerDashboardFilterRequestDTO requestDTO) {
         try {
             log.info("Execute method getAllAdminCustomerDashboard: @param : {}");
             CustomerAllDashboardResponseDTO responseDTO = new CustomerAllDashboardResponseDTO();
+
+            Optional<com.esoft.carservice.entity.Service> optionalService = serviceRepository.serviceDate(requestDTO.getUserId());
+            if (optionalService.isPresent()) {
+                responseDTO.setLastServiceDate(optionalService.get().getService_date());
+                responseDTO.setVehicleNo(optionalService.get().getVehicle().getNumberPlate());
+            }
+            Long allServiceItemCost = serviceDetailsRepository.getAllServiceItemCost(requestDTO.getUserId());
+            Long allServiceCost = serviceDetailsRepository.getAllServiceCost(requestDTO.getUserId());
+            responseDTO.setPartCost(allServiceItemCost);
+            responseDTO.setServiceCost(allServiceCost);
+            List<com.esoft.carservice.entity.Service> serviceList = serviceRepository.serviceCount(requestDTO.getUserId());
+            responseDTO.setServiceCount(serviceList.size());
+            List<Vehicle> vehicles = vehicleRepository.vehicleCount(requestDTO.getUserId());
+            responseDTO.setVehicleCount(vehicles.size());
+
+
             return responseDTO;
         } catch (Exception e) {
             log.error("Method getAllAdminCustomerDashboard : " + e.getMessage(), e);

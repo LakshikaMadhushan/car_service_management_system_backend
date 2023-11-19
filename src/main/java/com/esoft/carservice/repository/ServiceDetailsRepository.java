@@ -14,6 +14,16 @@ public interface ServiceDetailsRepository extends JpaRepository<ServiceDetails, 
             "            (?5 IS NULL OR ds.type=?5)  ORDER BY ds.service_details_id DESC", nativeQuery = true)
     List<ServiceDetails> getAllServiceDetailFilter(long serviceDetailsId, long serviceId, long itemId, long mechanicServiceId, String type);
 
+    @Query(value = "SELECT sum(sd.cost) FROM service_details sd WHERE sd.type='ITEM' AND sd.service_service_id IN\n" +
+            "(SELECT s.service_id FROM service s WHERE s.vehicle_vehicle_id IN\n" +
+            "(SELECT v.vehicle_id FROM vehicle v WHERE v.customer_customer_id=?1))", nativeQuery = true)
+    Long getAllServiceItemCost(long userId);
+
+    @Query(value = "SELECT sum(sd.cost) FROM service_details sd WHERE sd.type='SERVICE' AND sd.service_service_id IN\n" +
+            "(SELECT s.service_id FROM service s WHERE s.vehicle_vehicle_id IN\n" +
+            "(SELECT v.vehicle_id FROM vehicle v WHERE v.customer_customer_id=?1))", nativeQuery = true)
+    Long getAllServiceCost(long userId);
+
 //    @Query(value = "SELECT * FROM service s WHERE (?1 = 0 OR s.technician_technician_id=?1) AND\n" +
 //            "        (?2 = 0 OR s.vehicle_vehicle_id=?2) AND\n" +
 //            "        (?3 IS NULL OR s.type=?3) AND\n" +

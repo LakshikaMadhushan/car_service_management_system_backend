@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
     @Query(value = "SELECT * FROM service s WHERE (?1 = 0 OR s.service_id=?1) AND\n" +
@@ -22,4 +23,12 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
             "        (?6 = 0 OR s.vehicle_vehicle_id IN (SELECT v.vehicle_id FROM vehicle v where v.customer_customer_id=?6))\n" +
             "        ORDER BY s.service_id DESC ", nativeQuery = true)
     List<Service> getAdminReportFilter(long technicianId, long vehicleId, String type, Date startDate, Date endDate, long customerId);
+
+    @Query(value = "SELECT * FROM service s WHERE s.vehicle_vehicle_id IN (SELECT v.vehicle_id FROM vehicle v where v.customer_customer_id=?1)\n" +
+            "        ORDER BY s.service_id DESC ", nativeQuery = true)
+    List<Service> serviceCount(long customerId);
+
+    @Query(value = "SELECT * FROM service s WHERE s.vehicle_vehicle_id IN (SELECT v.vehicle_id FROM vehicle v where v.customer_customer_id=?1)\n" +
+            "        ORDER BY s.service_date DESC LIMIT 1 ", nativeQuery = true)
+    Optional<Service> serviceDate(long customerId);
 }
