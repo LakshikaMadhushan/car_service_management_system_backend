@@ -93,7 +93,7 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 serviceDetails.setCost(item.getSellingPrice());
                 serviceDetails.setItem(item);
             } else if (requestDTO.getType() == ServiceDetailsType.SERVICE) {
-                Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(requestDTO.getMechanicServiceId());
+                Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(requestDTO.getItemId());
                 if (!optionalMechanicService.isPresent()) {
                     throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the mechanic service you are finding cannot be found. ");
                 }
