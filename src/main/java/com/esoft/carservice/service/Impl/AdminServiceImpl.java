@@ -7,6 +7,7 @@ import com.esoft.carservice.dto.requset.UpdateSaveAdminRequestDTO;
 import com.esoft.carservice.dto.responce.GetAdminResponseDTO;
 import com.esoft.carservice.entity.Admin;
 import com.esoft.carservice.entity.User;
+import com.esoft.carservice.enums.UserRole;
 import com.esoft.carservice.repository.AdminRepository;
 import com.esoft.carservice.repository.UserRepository;
 import com.esoft.carservice.service.AdminService;
@@ -23,7 +24,6 @@ import java.util.Optional;
 
 import static com.esoft.carservice.constant.ResponseCodes.OPERATION_FAILED;
 import static com.esoft.carservice.constant.ResponseCodes.RESOURCE_NOT_FOUND;
-import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OCCURRED;
 
 @Log4j2
 @Service
@@ -61,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
             return getAdminResponseDTOList;
         } catch (Exception e) {
             log.error("Method getAllAdmin : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class AdminServiceImpl implements AdminService {
             return getAdminResponseDTO;
         } catch (Exception e) {
             log.error("Method getAdmin : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
     }
 
@@ -100,12 +100,17 @@ public class AdminServiceImpl implements AdminService {
     public void updateAdmin(UpdateSaveAdminRequestDTO requestDTO) {
         log.info("Execute method updateAdmin : @param : {} ", requestDTO);
         try {
-            List<User> userList = userRepository.checkEmailANDNicUpdate(requestDTO.getEmail(), requestDTO.getNic(), requestDTO.getUserId());
+            Optional<Admin> optionalAdmin = adminRepository.findById(requestDTO.getUserId());
+            if (!optionalAdmin.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the admin user you are finding cannot be found. ");
+            }
+
+            List<User> userList = userRepository.checkEmailANDNicUpdate(requestDTO.getEmail(), requestDTO.getNic(), optionalAdmin.get().getUser().getUserId());
             if (!userList.isEmpty()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the admin user email or nic already Used. ");
 
             }
-            Optional<User> optionalUser = userRepository.findById(requestDTO.getUserId());
+            Optional<User> optionalUser = userRepository.findById(optionalAdmin.get().getUser().getUserId());
             if (!optionalUser.isPresent()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the admin user you are finding cannot be found. ");
             }
@@ -113,6 +118,7 @@ public class AdminServiceImpl implements AdminService {
             user.setEmail(requestDTO.getEmail());
             user.setName(requestDTO.getName());
             user.setStatus(requestDTO.getStatus());
+            user.setNic(requestDTO.getNic());
 
             userRepository.save(user);
 
@@ -127,13 +133,14 @@ public class AdminServiceImpl implements AdminService {
 
         } catch (Exception e) {
             log.error("Method updateAdmin : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
 
 
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void saveAdmin(UpdateSaveAdminRequestDTO requestDTO) {
         log.info("Execute method saveAdmin : @param : {} ", requestDTO);
         try {
@@ -148,20 +155,13 @@ public class AdminServiceImpl implements AdminService {
             user.setEmail(requestDTO.getEmail());
             user.setStatus(requestDTO.getStatus());
             user.setName(requestDTO.getName());
+            user.setNic(requestDTO.getNic());
+            user.setUserRole(UserRole.ADMIN);
 
 
-//            if (userEntity.getUserId() == userEntity.getUserId()) {
-//
-//                if (!passwordEncoder.matches(updatePasswordRequestDTO.getOldPassword(), userEntity.getGenericUser().getPassword()))
-//                    throw new ApiitCustomException(INVALID_INPUT, "Your password not match with previous password");
-//
-//
-//                // check whether passwords are same
-//                if (passwordEncoder.matches(updatePasswordRequestDTO.getNewPassword(), userEntity.getGenericUser().getPassword()))
-//                    throw new ApiitCustomException(INVALID_INPUT, "Your new password cannot be the same as previous password");
-//
-//                genericUser.setPassword(passwordEncoder.encode(updatePasswordRequestDTO.getNewPassword()));
             user.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
+
+            userRepository.save(user);
 
             Admin admin = new Admin();
             admin.setAddress1(requestDTO.getAddress1());
@@ -169,11 +169,12 @@ public class AdminServiceImpl implements AdminService {
             admin.setName(requestDTO.getName());
             admin.setQualification(requestDTO.getQualification());
             admin.setNic(requestDTO.getNic());
-            user.setAdmin(admin);
-            userRepository.save(user);
+            admin.setUser(user);
+            adminRepository.save(admin);
+
         } catch (Exception e) {
             log.error("Method saveAdmin : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
     }
 
@@ -206,7 +207,7 @@ public class AdminServiceImpl implements AdminService {
             return getAdminResponseDTOList;
         } catch (Exception e) {
             log.error("Method getAllAdmin : " + e.getMessage(), e);
-            throw new CustomException(OPERATION_FAILED, UNEXPECTED_ERROR_OCCURRED);
+            throw new CustomException(OPERATION_FAILED, e.getMessage());
         }
     }
 }
