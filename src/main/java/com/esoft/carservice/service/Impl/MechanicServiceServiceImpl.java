@@ -164,7 +164,7 @@ public class MechanicServiceServiceImpl implements MechanicServiceService {
                 vehicleType = requestDTO.getVehicleType().toString();
             }
 
-            List<MechanicService> mechanicServiceFilter = mechanicServiceRepository.getAllMechanicServiceFilter(requestDTO.getName(), requestDTO.getMechanicServiceId(), vehicleType);
+            List<MechanicService> mechanicServiceFilter = mechanicServiceRepository.getAllMechanicServiceFilter(requestDTO.getName(), requestDTO.getMechanicServiceId(), vehicleType, requestDTO.getMechanicServiceCategoryId());
             List<GetMechanicServiceResponseDTO> mechanicServiceResponseDTOList = new ArrayList<>();
             for (MechanicService mechanicService : mechanicServiceFilter) {
                 GetMechanicServiceResponseDTO getMechanicServiceResponseDTO = new GetMechanicServiceResponseDTO();

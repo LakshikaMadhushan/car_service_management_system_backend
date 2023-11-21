@@ -13,6 +13,6 @@ public interface MechanicServiceRepository extends JpaRepository<MechanicService
     @Query(value = "SELECT * FROM mechanic_service m WHERE m.name=?1", nativeQuery = true)
     List<MechanicService> findMechanicServiceByName(String name);
 
-    @Query(value = "SELECT * FROM mechanic_service m WHERE (?1 IS NULL OR m.name LIKE %?1%) AND (?2 = 0 OR m.mechanic_service_id=?2) AND (?3 IS NULL OR m.vehicle_type=?3) ORDER BY m.mechanic_service_id DESC", nativeQuery = true)
-    List<MechanicService> getAllMechanicServiceFilter(String name, long id, String vehicleType);
+    @Query(value = "SELECT * FROM mechanic_service m WHERE (?1 IS NULL OR m.name LIKE %?1%) AND (?2 = 0 OR m.mechanic_service_id=?2) AND (?3 IS NULL OR m.vehicle_type=?3) AND (?4 = 0 OR m.mechanic_service_category_mechanic_service_category_id=?4) ORDER BY m.mechanic_service_id DESC", nativeQuery = true)
+    List<MechanicService> getAllMechanicServiceFilter(String name, long id, String vehicleType, long categoryId);
 }
