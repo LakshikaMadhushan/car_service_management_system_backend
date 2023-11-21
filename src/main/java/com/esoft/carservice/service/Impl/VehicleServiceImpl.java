@@ -115,20 +115,20 @@ public class VehicleServiceImpl implements VehicleService {
             }
             Customer customer = optionalCustomer.get();
 
-            vehicle.setCategory(vehicle.getCategory());
-            vehicle.setColour(vehicle.getColour());
+            vehicle.setCategory(requestDTO.getCategory());
+            vehicle.setColour(requestDTO.getColour());
             vehicle.setCustomer(customer);
-            vehicle.setEngineCapacity(vehicle.getEngineCapacity());
-            vehicle.setMileage(vehicle.getMileage());
-            vehicle.setNextMileage(vehicle.getNextMileage());
-            List<Vehicle> itemByVehicleNumber = vehicleRepository.findByVehicleNumberUpdate(vehicle.getNumberPlate(), vehicle.getVehicleId());
+            vehicle.setEngineCapacity(requestDTO.getEngineCapacity());
+            vehicle.setMileage(requestDTO.getMileage());
+            vehicle.setNextMileage(requestDTO.getNextMileage());
+            List<Vehicle> itemByVehicleNumber = vehicleRepository.findByVehicleNumberUpdate(requestDTO.getNumberPlate(), requestDTO.getVehicleId());
             if (!itemByVehicleNumber.isEmpty()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the this vehicle number already used. ");
 
             }
-            vehicle.setNumberPlate(vehicle.getNumberPlate());
-            vehicle.setStatus(vehicle.getStatus());
-            vehicle.setVehicleType(vehicle.getVehicleType());
+            vehicle.setNumberPlate(requestDTO.getNumberPlate());
+            vehicle.setStatus(requestDTO.getStatus());
+            vehicle.setVehicleType(requestDTO.getVehicleType());
 
             vehicleRepository.save(vehicle);
         } catch (Exception e) {
@@ -150,20 +150,20 @@ public class VehicleServiceImpl implements VehicleService {
             Customer customer = optionalCustomer.get();
 
             Vehicle vehicle = new Vehicle();
-            vehicle.setCategory(vehicle.getCategory());
-            vehicle.setColour(vehicle.getColour());
+            vehicle.setCategory(requestDTO.getCategory());
+            vehicle.setColour(requestDTO.getColour());
             vehicle.setCustomer(customer);
-            vehicle.setEngineCapacity(vehicle.getEngineCapacity());
-            vehicle.setMileage(vehicle.getMileage());
-            vehicle.setNextMileage(vehicle.getNextMileage());
-            List<Vehicle> itemByVehicleNumber = vehicleRepository.findByVehicleNumber(vehicle.getNumberPlate());
+            vehicle.setEngineCapacity(requestDTO.getEngineCapacity());
+            vehicle.setMileage(requestDTO.getMileage());
+            vehicle.setNextMileage(requestDTO.getNextMileage());
+            List<Vehicle> itemByVehicleNumber = vehicleRepository.findByVehicleNumber(requestDTO.getNumberPlate());
             if (!itemByVehicleNumber.isEmpty()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the this vehicle number already used. ");
 
             }
-            vehicle.setNumberPlate(vehicle.getNumberPlate());
-            vehicle.setStatus(vehicle.getStatus());
-            vehicle.setVehicleType(vehicle.getVehicleType());
+            vehicle.setNumberPlate(requestDTO.getNumberPlate());
+            vehicle.setStatus(requestDTO.getStatus());
+            vehicle.setVehicleType(requestDTO.getVehicleType());
 
             vehicleRepository.save(vehicle);
         } catch (Exception e) {

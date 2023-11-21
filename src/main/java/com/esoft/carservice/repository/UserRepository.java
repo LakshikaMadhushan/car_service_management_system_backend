@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query(value = "SELECT * FROM user u WHERE u.email='lakshika@ceyentra.com'", nativeQuery = true)
+    @Query(value = "SELECT * FROM user u WHERE u.email=?1", nativeQuery = true)
     Optional<User> findLatestByEmail(String email);
 
     @Query(value = "SELECT * FROM user u WHERE u.email=?1 OR u.nic=?2", nativeQuery = true)

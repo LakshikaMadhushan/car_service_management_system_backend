@@ -10,7 +10,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query(value = "SELECT * FROM vehicle v WHERE v.number_plate=?1", nativeQuery = true)
     List<Vehicle> findByVehicleNumber(String name);
 
-    @Query(value = "SELECT * FROM vehicle v WHERE v.number_plate=?1 AND v.vehicle_id=?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM vehicle v WHERE v.number_plate=?1 AND v.vehicle_id!=?2", nativeQuery = true)
     List<Vehicle> findByVehicleNumberUpdate(String name, long id);
 
     @Query(value = "SELECT * FROM vehicle v WHERE (?1 IS NULL OR v.number_plate LIKE %?1%)\n" +

@@ -4,6 +4,7 @@ package com.esoft.carservice.service.Impl;
 import com.esoft.carservice.entity.User;
 import com.esoft.carservice.repository.UserRepository;
 import com.esoft.carservice.service.UserAuthService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Log4j2
 @Service(value = "userAuthService")
 public class UserAuthServiceImpl implements UserDetailsService, UserAuthService {
 
@@ -25,7 +27,9 @@ public class UserAuthServiceImpl implements UserDetailsService, UserAuthService 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
             Optional<User> user = userRepo.findLatestByEmail(username);
+
             if (!user.isPresent()) throw new UsernameNotFoundException("Invalid username or password.");
+            log.info(user.get().getEmail());
             return new org.springframework.security.core.userdetails.User(user.get().getName(), user.get().getPassword(), getAuthority(user.get()));
         } catch (Exception e) {
             System.out.println(e.getMessage());
