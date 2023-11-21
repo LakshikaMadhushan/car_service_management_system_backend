@@ -133,7 +133,11 @@ public class TechnicianServiceImpl implements TechnicianService {
     public List<GetTechnicianResponseDTO> getTechnicianFilter(TechnicianFilterRequestDTO requestDTO) {
         log.info("Execute method getTechnicianFilter : @param : {} ", requestDTO);
         try {
-            List<Technician> technicianList = technicianRepository.getAllTechnicianFilter(requestDTO.getName(), requestDTO.getTechnicianId(), requestDTO.getEmail(), requestDTO.getNic(), requestDTO.getStatus());
+            String status = null;
+            if (requestDTO.getStatus() != null) {
+                status = requestDTO.getStatus().toString();
+            }
+            List<Technician> technicianList = technicianRepository.getAllTechnicianFilter(requestDTO.getName(), requestDTO.getTechnicianId(), requestDTO.getEmail(), requestDTO.getNic(), status);
             List<GetTechnicianResponseDTO> technicianResponseDTOList = new ArrayList<>();
             for (Technician technician : technicianList) {
                 GetTechnicianResponseDTO getTechnicianResponseDTO = new GetTechnicianResponseDTO();
