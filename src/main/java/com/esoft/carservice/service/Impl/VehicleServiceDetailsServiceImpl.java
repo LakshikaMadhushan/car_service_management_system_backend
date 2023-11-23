@@ -130,6 +130,7 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 GetServiceDetailsResponseDTO getServiceDetailsResponseDTO = new GetServiceDetailsResponseDTO();
 
                 getServiceDetailsResponseDTO.setServiceDetailsId(serviceDetails.getServiceDetailsId());
+                getServiceDetailsResponseDTO.setServiceDetailsId(serviceDetails.getService().getServiceId());
                 getServiceDetailsResponseDTO.setType(serviceDetails.getType());
                 getServiceDetailsResponseDTO.setCost(serviceDetails.getCost());
                 if (serviceDetails.getType() == ServiceDetailsType.SERVICE) {

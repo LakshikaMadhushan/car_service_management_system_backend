@@ -22,7 +22,7 @@ public class AdminReportResponseDTO {
     public Date service_date;
     @Enumerated(EnumType.STRING)
     public ServiceType type;
-    public String cost;
+    public double cost;
     public List<GetServiceDetailsResponseDTO> serviceDetailsResponseDTOS;
     public long vehicleId;
     public String vehicle;

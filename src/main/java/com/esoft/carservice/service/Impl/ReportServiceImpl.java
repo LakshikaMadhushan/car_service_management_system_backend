@@ -66,7 +66,7 @@ public class ReportServiceImpl implements ReportService {
 
             for (com.esoft.carservice.entity.Service service : adminReportFilter) {
                 AdminReportResponseDTO adminReportResponseDTO = new AdminReportResponseDTO();
-                adminReportResponseDTO.setCost(service.getCost());
+
                 adminReportResponseDTO.setService_date(service.getService_date());
                 adminReportResponseDTO.setServiceId(service.getServiceId());
                 adminReportResponseDTO.setType(service.getType());
@@ -85,6 +85,7 @@ public class ReportServiceImpl implements ReportService {
 
                 List<ServiceDetails> serviceDetailsList = service.getServiceDetailsList();
                 List<GetServiceDetailsResponseDTO> serviceDetailsResponseDTOS = new ArrayList<>();
+                double serviceWiseCost = 0;
                 for (ServiceDetails serviceDetails : serviceDetailsList) {
                     GetServiceDetailsResponseDTO getServiceDetailsResponseDTO = new GetServiceDetailsResponseDTO();
                     getServiceDetailsResponseDTO.setServiceDetailsId(serviceDetails.getServiceDetailsId());
@@ -94,12 +95,14 @@ public class ReportServiceImpl implements ReportService {
                         getServiceDetailsResponseDTO.setItemName(serviceDetails.getItem().getItemName());
                         getServiceDetailsResponseDTO.setCost(serviceDetails.getItem().getSellingPrice());
                         total += serviceDetails.getItem().getSellingPrice();
+                        serviceWiseCost += serviceDetails.getItem().getSellingPrice();
                         totalItem += serviceDetails.getItem().getSellingPrice();
                     } else if (serviceDetails.getType() == ServiceDetailsType.SERVICE) {
                         getServiceDetailsResponseDTO.setItemId(serviceDetails.getMechanicService().getMechanicServiceId());
                         getServiceDetailsResponseDTO.setItemName(serviceDetails.getMechanicService().getName());
                         getServiceDetailsResponseDTO.setCost(serviceDetails.getMechanicService().getPrice());
                         total += serviceDetails.getMechanicService().getPrice();
+                        serviceWiseCost += serviceDetails.getMechanicService().getPrice();
                         totalService += serviceDetails.getMechanicService().getPrice();
                     }
 
@@ -107,7 +110,7 @@ public class ReportServiceImpl implements ReportService {
                     serviceDetailsResponseDTOS.add(getServiceDetailsResponseDTO);
                 }
                 adminReportResponseDTO.setServiceDetailsResponseDTOS(serviceDetailsResponseDTOS);
-
+                adminReportResponseDTO.setCost(serviceWiseCost);
                 responseDTOS.add(adminReportResponseDTO);
             }
 

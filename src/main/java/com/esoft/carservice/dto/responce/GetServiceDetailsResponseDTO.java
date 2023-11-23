@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor
 @Data
 public class GetServiceDetailsResponseDTO {
+    public long serviceId;
     public long serviceDetailsId;
     @Enumerated(EnumType.STRING)
     public ServiceDetailsType type;
