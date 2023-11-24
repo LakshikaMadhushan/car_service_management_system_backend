@@ -17,6 +17,7 @@ import java.util.Date;
 public class ServiceFilterRequestDTO {
     public long serviceId;
     public long vehicleId;
+    public long userId;
     public long technicianId;
     @Temporal(TemporalType.DATE)
     public Date start;
