@@ -17,7 +17,7 @@ public class GetServiceResponseDTO {
     public Date serviceDate;
     @Enumerated(EnumType.STRING)
     public ServiceType type;
-    public String cost;
+    public double cost;
 
     public long vehicleId;
     public String numberPlate;

@@ -57,7 +57,12 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             com.esoft.carservice.entity.Service service = serviceOptional.get();
 
             GetServiceResponseDTO getServiceResponseDTO = new GetServiceResponseDTO();
-            getServiceResponseDTO.setCost(service.getCost());
+            double total = 0;
+            List<ServiceDetails> serviceDetailsList = service.getServiceDetailsList();
+            for (ServiceDetails serviceDetails : serviceDetailsList) {
+                total += serviceDetails.getCost();
+            }
+            getServiceResponseDTO.setCost(total);
             getServiceResponseDTO.setTechnicianName(service.getTechnician().getName());
             getServiceResponseDTO.setNumberPlate(service.getVehicle().getNumberPlate());
             getServiceResponseDTO.setServiceDate(service.getService_date());
@@ -149,7 +154,12 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             for (com.esoft.carservice.entity.Service service : serviceList) {
                 GetServiceResponseDTO getServiceResponseDTO = new GetServiceResponseDTO();
                 getServiceResponseDTO.setServiceId(service.getServiceId());
-                getServiceResponseDTO.setCost(service.getCost());
+                double total = 0;
+                List<ServiceDetails> serviceDetailsList = service.getServiceDetailsList();
+                for (ServiceDetails serviceDetails : serviceDetailsList) {
+                    total += serviceDetails.getCost();
+                }
+                getServiceResponseDTO.setCost(total);
                 getServiceResponseDTO.setTechnicianName(service.getTechnician().getName());
                 getServiceResponseDTO.setNumberPlate(service.getVehicle().getNumberPlate());
                 getServiceResponseDTO.setServiceDate(service.getService_date());
@@ -203,17 +213,19 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
                 if (saveServiceDetailsRequestDTO.getType() == ServiceDetailsType.ITEM) {
                     Optional<Item> optionalItem = itemRepository.findById(saveServiceDetailsRequestDTO.getItemId());
                     if (!optionalItem.isPresent()) {
-
+                        throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the item you are finding cannot be found. ");
                     }
 
                     Item item = optionalItem.get();
+                    int quantity = item.getQuantity();
+                    item.setQuantity(quantity - 1);
                     serviceDetails.setItem(item);
 
                 } else {
                     Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(saveServiceDetailsRequestDTO.getItemId());
 
                     if (!optionalMechanicService.isPresent()) {
-
+                        throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the service you are finding cannot be found. ");
                     }
                     MechanicService mechanicService = optionalMechanicService.get();
                     serviceDetails.setMechanicService(mechanicService);
