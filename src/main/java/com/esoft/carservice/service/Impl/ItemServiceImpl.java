@@ -9,7 +9,9 @@ import com.esoft.carservice.entity.Item;
 import com.esoft.carservice.entity.ItemCategory;
 import com.esoft.carservice.repository.ItemCategoryRepository;
 import com.esoft.carservice.repository.ItemRepository;
+import com.esoft.carservice.repository.ServiceRepository;
 import com.esoft.carservice.service.ItemService;
+import com.esoft.carservice.util.EmailSender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,10 +31,14 @@ import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OC
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final ItemCategoryRepository itemCategoryRepository;
+    private final EmailSender emailSender;
+    private final ServiceRepository serviceRepository;
 
-    public ItemServiceImpl(ItemRepository itemRepository, ItemCategoryRepository itemCategoryRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, ItemCategoryRepository itemCategoryRepository, EmailSender emailSender, ServiceRepository serviceRepository) {
         this.itemRepository = itemRepository;
         this.itemCategoryRepository = itemCategoryRepository;
+        this.emailSender = emailSender;
+        this.serviceRepository = serviceRepository;
     }
 
     @Override

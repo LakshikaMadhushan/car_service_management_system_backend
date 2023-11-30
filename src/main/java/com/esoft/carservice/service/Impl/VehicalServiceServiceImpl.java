@@ -11,11 +11,13 @@ import com.esoft.carservice.entity.*;
 import com.esoft.carservice.enums.ServiceDetailsType;
 import com.esoft.carservice.repository.*;
 import com.esoft.carservice.service.VehicalServiceService;
+import com.esoft.carservice.util.EmailSender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,14 +37,16 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
     private final TechnicianRepository technicianRepository;
     private final VehicleRepository vehicleRepository;
     private final MechanicServiceRepository mechanicServiceRepository;
+    private final EmailSender emailSender;
 
-    public VehicalServiceServiceImpl(ServiceRepository serviceRepository, ServiceDetailsRepository serviceDetailsRepository, ItemRepository itemRepository, TechnicianRepository technicianRepository, VehicleRepository vehicleRepository, MechanicServiceRepository mechanicServiceRepository) {
+    public VehicalServiceServiceImpl(ServiceRepository serviceRepository, ServiceDetailsRepository serviceDetailsRepository, ItemRepository itemRepository, TechnicianRepository technicianRepository, VehicleRepository vehicleRepository, MechanicServiceRepository mechanicServiceRepository, EmailSender emailSender) {
         this.serviceRepository = serviceRepository;
         this.serviceDetailsRepository = serviceDetailsRepository;
         this.itemRepository = itemRepository;
         this.technicianRepository = technicianRepository;
         this.vehicleRepository = vehicleRepository;
         this.mechanicServiceRepository = mechanicServiceRepository;
+        this.emailSender = emailSender;
     }
 
     @Override
@@ -236,6 +240,35 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
 
 //            service.setServiceDetailsList(serviceDetailsList);
             serviceDetailsRepository.saveAll(serviceDetailsList);
+
+
+            //send service email
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+            StringBuilder body = new StringBuilder();
+            body.append("Dear Customer,\n\n");
+            body.append("We hope this message finds you well. We wanted to inform you about the recent service on your vehicle.\n\n");
+
+            body.append("Service Details:\n");
+            body.append("Service ID: ").append(service.getServiceId()).append("\n");
+            body.append("Service Date: ").append(dateFormat.format(service.getService_date())).append("\n");
+            body.append("Service Type: ").append(service.getType()).append("\n");
+            body.append("Cost: ").append(service.getCost()).append("\n");
+
+            body.append("Vehicle Information:\n");
+            body.append("Model: ").append(service.getVehicle().getVehicleType()).append("\n");
+            body.append("License Plate: ").append(service.getVehicle().getNumberPlate()).append("\n");
+
+            body.append("Technician Assigned:\n");
+            body.append("Technician Name: ").append(service.getTechnician().getName()).append("\n");
+            body.append("Technician Contact: ").append(service.getTechnician().getMobileNumber()).append("\n\n");
+
+            body.append("Thank you for choosing our service. If you have any questions or need further assistance, feel free to reach out.\n\n");
+            body.append("Best Regards,\nYour Service Team");
+
+
+            emailSender.sendEmail(optionalVehicle.get().getCustomer().getUser().getEmail(), "Vehicle Service Information", body.toString());
+
 
         } catch (Exception e) {
             log.error("Method updateService : " + e.getMessage(), e);
