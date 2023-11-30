@@ -88,6 +88,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/v1/service-details").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/service-details").permitAll()
                 .antMatchers(HttpMethod.POST, "/v1/service-details/filter").permitAll()
+                //User service details
+                .antMatchers(HttpMethod.PATCH, "/v1/user/password").permitAll()
 
 //                .antMatchers("/**").authenticated()
                 .antMatchers("/**").permitAll()
