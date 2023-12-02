@@ -249,17 +249,16 @@ public class VehicalServiceServiceImpl implements VehicalServiceService {
             body.append("Dear Customer,\n\n");
             body.append("We hope this message finds you well. We wanted to inform you about the recent service on your vehicle.\n\n");
 
-            body.append("Service Details:\n");
+            body.append("Service Details,\n");
             body.append("Service ID: ").append(service.getServiceId()).append("\n");
             body.append("Service Date: ").append(dateFormat.format(service.getService_date())).append("\n");
             body.append("Service Type: ").append(service.getType()).append("\n");
             body.append("Cost: ").append(service.getCost()).append("\n");
 
-            body.append("Vehicle Information:\n");
-            body.append("Model: ").append(service.getVehicle().getVehicleType()).append("\n");
+            body.append("Vehicle Information,\n");
             body.append("License Plate: ").append(service.getVehicle().getNumberPlate()).append("\n");
 
-            body.append("Technician Assigned:\n");
+            body.append("Technician Assigned,\n");
             body.append("Technician Name: ").append(service.getTechnician().getName()).append("\n");
             body.append("Technician Contact: ").append(service.getTechnician().getMobileNumber()).append("\n\n");
 
