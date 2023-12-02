@@ -12,6 +12,7 @@ import com.esoft.carservice.enums.ServiceDetailsType;
 import com.esoft.carservice.repository.ItemRepository;
 import com.esoft.carservice.repository.MechanicServiceRepository;
 import com.esoft.carservice.repository.ServiceDetailsRepository;
+import com.esoft.carservice.repository.ServiceRepository;
 import com.esoft.carservice.service.VehicleServiceDetailsService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,13 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
     private final ServiceDetailsRepository serviceDetailsRepository;
     private final ItemRepository itemRepository;
     private final MechanicServiceRepository mechanicServiceRepository;
+    private final ServiceRepository serviceRepository;
 
-    public VehicleServiceDetailsServiceImpl(ServiceDetailsRepository serviceDetailsRepository, ItemRepository itemRepository, MechanicServiceRepository mechanicServiceRepository) {
+    public VehicleServiceDetailsServiceImpl(ServiceDetailsRepository serviceDetailsRepository, ItemRepository itemRepository, MechanicServiceRepository mechanicServiceRepository, ServiceRepository serviceRepository) {
         this.serviceDetailsRepository = serviceDetailsRepository;
         this.itemRepository = itemRepository;
         this.mechanicServiceRepository = mechanicServiceRepository;
+        this.serviceRepository = serviceRepository;
     }
 
     @Override
@@ -188,7 +191,12 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 serviceDetails.setMechanicService(mechanicService);
             }
 
-
+            Optional<com.esoft.carservice.entity.Service> optionalService = serviceRepository.findById(requestDTO.getServiceId());
+            if (!optionalService.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the service you are finding cannot be found. ");
+            }
+            com.esoft.carservice.entity.Service service = optionalService.get();
+            serviceDetails.setService(service);
             serviceDetailsRepository.save(serviceDetails);
 
 
