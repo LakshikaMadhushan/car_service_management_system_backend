@@ -79,7 +79,7 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
         log.info("Execute method updateServiceDetail : @param : {} ", requestDTO);
         try {
 
-            Optional<ServiceDetails> optionalServiceDetails = serviceDetailsRepository.findById(requestDTO.getServiceId());
+            Optional<ServiceDetails> optionalServiceDetails = serviceDetailsRepository.findById(requestDTO.getVehicleServiceId());
             if (!optionalServiceDetails.isPresent()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the service you are finding cannot be found. ");
             }
@@ -96,7 +96,7 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 serviceDetails.setCost(item.getSellingPrice());
                 serviceDetails.setItem(item);
             } else if (requestDTO.getType() == ServiceDetailsType.SERVICE) {
-                Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(requestDTO.getItemId());
+                Optional<MechanicService> optionalMechanicService = mechanicServiceRepository.findById(requestDTO.getName());
                 if (!optionalMechanicService.isPresent()) {
                     throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the mechanic service you are finding cannot be found. ");
                 }
@@ -133,7 +133,7 @@ public class VehicleServiceDetailsServiceImpl implements VehicleServiceDetailsSe
                 GetServiceDetailsResponseDTO getServiceDetailsResponseDTO = new GetServiceDetailsResponseDTO();
 
                 getServiceDetailsResponseDTO.setServiceDetailsId(serviceDetails.getServiceDetailsId());
-                getServiceDetailsResponseDTO.setServiceDetailsId(serviceDetails.getService().getServiceId());
+                getServiceDetailsResponseDTO.setServiceId(serviceDetails.getService().getServiceId());
                 getServiceDetailsResponseDTO.setType(serviceDetails.getType());
                 getServiceDetailsResponseDTO.setCost(serviceDetails.getCost());
                 if (serviceDetails.getType() == ServiceDetailsType.SERVICE) {

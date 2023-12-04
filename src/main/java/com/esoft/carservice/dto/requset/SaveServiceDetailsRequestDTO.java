@@ -17,6 +17,7 @@ public class SaveServiceDetailsRequestDTO {
     public double cost;
     public long serviceId;
     public long itemId;
+    public long name;
     public long mechanicServiceId;
 
     public long vehicleServiceId;

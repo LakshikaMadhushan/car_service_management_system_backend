@@ -1,9 +1,11 @@
 package com.esoft.carservice.service.Impl;
 
 import com.esoft.carservice.configuration.exception.CustomException;
+import com.esoft.carservice.configuration.exception.ServiceException;
 import com.esoft.carservice.dto.requset.AdminReportFilterRequestDTO;
 import com.esoft.carservice.dto.requset.CustomerDashboardFilterRequestDTO;
 import com.esoft.carservice.dto.responce.*;
+import com.esoft.carservice.entity.Customer;
 import com.esoft.carservice.entity.ServiceDetails;
 import com.esoft.carservice.entity.Vehicle;
 import com.esoft.carservice.enums.ServiceDetailsType;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.esoft.carservice.constant.ResponseCodes.OPERATION_FAILED;
+import static com.esoft.carservice.constant.ResponseCodes.RESOURCE_NOT_FOUND;
 import static com.esoft.carservice.constant.ResponseMessages.UNEXPECTED_ERROR_OCCURRED;
 
 @Log4j2
@@ -150,25 +153,33 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public CustomerAllDashboardResponseDTO getAllCustomerDashboard(CustomerDashboardFilterRequestDTO requestDTO) {
         try {
-            log.info("Execute method getAllAdminCustomerDashboard: @param : {}");
+            log.info("Execute method getAllAdminCustomerDashboard: @param : {}", requestDTO);
             CustomerAllDashboardResponseDTO responseDTO = new CustomerAllDashboardResponseDTO();
 
-            Optional<com.esoft.carservice.entity.Service> optionalService = serviceRepository.serviceDate(requestDTO.getUserId());
+            Optional<Customer> optionalCustomer = customerRepository.getAllCustomerFilter(requestDTO.getUserId());
+
+            if (!optionalCustomer.isPresent()) {
+                throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the user you are finding cannot be found. ");
+            }
+            Customer customer = optionalCustomer.get();
+
+
+            Optional<com.esoft.carservice.entity.Service> optionalService = serviceRepository.serviceDate(customer.getCustomerId());
             if (optionalService.isPresent()) {
                 responseDTO.setLastServiceDate(optionalService.get().getService_date());
                 responseDTO.setVehicleNo(optionalService.get().getVehicle().getNumberPlate());
             }
-            Long allServiceItemCost = serviceDetailsRepository.getAllServiceItemCost(requestDTO.getUserId());
-            Long allServiceCost = serviceDetailsRepository.getAllServiceCost(requestDTO.getUserId());
+            Long allServiceItemCost = serviceDetailsRepository.getAllServiceItemCost(customer.getCustomerId());
+            Long allServiceCost = serviceDetailsRepository.getAllServiceCost(customer.getCustomerId());
             if (allServiceItemCost != null) {
                 responseDTO.setPartCost(allServiceItemCost);
             }
             if (allServiceCost != null) {
                 responseDTO.setServiceCost(allServiceCost);
             }
-            List<com.esoft.carservice.entity.Service> serviceList = serviceRepository.serviceCount(requestDTO.getUserId());
+            List<com.esoft.carservice.entity.Service> serviceList = serviceRepository.serviceCount(customer.getCustomerId());
             responseDTO.setServiceCount(serviceList.size());
-            List<Vehicle> vehicles = vehicleRepository.vehicleCount(requestDTO.getUserId());
+            List<Vehicle> vehicles = vehicleRepository.vehicleCount(customer.getCustomerId());
             responseDTO.setVehicleCount(vehicles.size());
 
 

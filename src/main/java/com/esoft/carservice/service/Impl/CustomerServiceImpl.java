@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
     public GetCustomerResponseDTO getCustomer(long id) {
         log.info("Execute method getCustomer :  @param : {}", id);
         try {
-            Optional<Customer> optionalCustomer = customerRepository.findById(id);
+            Optional<Customer> optionalCustomer = customerRepository.getAllCustomerFilter(id);
             if (!optionalCustomer.isPresent()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the customer you are finding cannot be found. ");
 
@@ -80,6 +80,9 @@ public class CustomerServiceImpl implements CustomerService {
             getCustomerResponseDTO.setCustomerId(customer.getCustomerId());
             getCustomerResponseDTO.setMobileNumber(customer.getMobileNumber());
             getCustomerResponseDTO.setName(customer.getName());
+            getCustomerResponseDTO.setEmail(customer.getUser().getEmail());
+            getCustomerResponseDTO.setNic(customer.getUser().getNic());
+            getCustomerResponseDTO.setStatus(customer.getUser().getStatus());
 
 
             return getCustomerResponseDTO;
@@ -94,7 +97,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(UpdateSaveCustomer requestDTO) {
         log.info("Execute method UpdateSaveCustomer :  @param : {}", requestDTO);
         try {
-            Optional<Customer> optionalCustomer = customerRepository.findById(requestDTO.getCustomerId());
+            Optional<Customer> optionalCustomer = customerRepository.getAllCustomerFilter(requestDTO.getCustomerId());
             if (!optionalCustomer.isPresent()) {
                 throw new ServiceException(RESOURCE_NOT_FOUND, "Sorry, the customer you are finding cannot be found. ");
 
@@ -114,23 +117,37 @@ public class CustomerServiceImpl implements CustomerService {
 
             }
 
-            user.setStatus(requestDTO.getStatus());
-            user.setName(requestDTO.getName());
-            user.setNic(requestDTO.getNic());
+            if (requestDTO.getStatus() != null) {
+                user.setStatus(requestDTO.getStatus());
+            }
+            if (requestDTO.getName() != null) {
+                user.setName(requestDTO.getName());
+            }
+            if (requestDTO.getNic() != null) {
+                user.setNic(requestDTO.getNic());
+            }
             if (requestDTO.getCustomerPassword() != null) {
                 user.setPassword(passwordEncoder.encode(requestDTO.getCustomerPassword()));
             }
-            user.setEmail(requestDTO.getCustomerEmail());
+            if (requestDTO.getCustomerEmail() != null) {
+                user.setEmail(requestDTO.getCustomerEmail());
+            }
 
             userRepository.save(user);
 
 
-            customer.setAddress1(requestDTO.getAddress1());
-            customer.setNic(requestDTO.getNic());
-            customer.setCustomerId(requestDTO.getCustomerId());
-            customer.setMobileNumber(requestDTO.getMobileNumber());
-            customer.setName(requestDTO.getName());
-
+            if (requestDTO.getAddress1() != null) {
+                customer.setAddress1(requestDTO.getAddress1());
+            }
+            if (requestDTO.getNic() != null) {
+                customer.setNic(requestDTO.getNic());
+            }
+            if (requestDTO.getMobileNumber() != null) {
+                customer.setMobileNumber(requestDTO.getMobileNumber());
+            }
+            if (requestDTO.getName() != null) {
+                customer.setName(requestDTO.getName());
+            }
             customerRepository.save(customer);
 
         } catch (Exception e) {

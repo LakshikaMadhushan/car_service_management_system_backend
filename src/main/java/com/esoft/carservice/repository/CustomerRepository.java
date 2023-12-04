@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(value = "SELECT * FROM customer c WHERE (?1 IS NULL OR c.mobile_number =?1) AND\n" +
@@ -15,4 +16,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             "            (?6 IS NULL OR (SELECT u.user_id FROM user u where u.status =?6 AND c.user_user_id=u.user_id))\n" +
             "            ORDER BY c.customer_id DESC", nativeQuery = true)
     List<Customer> getAllCustomerFilter(String contact, long adminId, String email, long userId, String nic, String status);
+
+    @Query(value = "SELECT * FROM customer c WHERE c.user_user_id=?1" +
+            "            ORDER BY c.customer_id DESC LIMIT 1", nativeQuery = true)
+    Optional<Customer> getAllCustomerFilter(long userId);
 }
